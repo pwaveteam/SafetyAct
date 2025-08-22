@@ -3,6 +3,7 @@ module.exports = {
 content: [
 "./index.html",
 "./src/**/*.{js,ts,jsx,tsx}",
+"node_modules/flowbite-react/**/*.{js,ts,jsx,tsx}"
 ],
 theme: {
 extend: {
@@ -14,5 +15,5 @@ base: ['0.9375rem', { lineHeight: '1.5rem' }],
 },
 },
 },
-plugins: [],
-}  
+plugins: [require('flowbite/plugin')],
+}

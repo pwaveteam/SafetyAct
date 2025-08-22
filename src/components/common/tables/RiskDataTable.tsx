@@ -18,7 +18,7 @@ return (
 <div className="overflow-x-auto">
 <table className="w-full table-fixed border-collapse min-w-[600px] md:min-w-auto">
 <thead>
-<tr className="h-9 md:h-14" style={{ background: "#F7F8FA", borderTop: "1.9px solid #161616", borderBottom: "1px solid #CCCCCC" }}>
+<tr className="h-[33px] md:h-[45px]" style={{ background: "#F7F8FA", borderTop: "1.9px solid #161616", borderBottom: "1px solid #CCCCCC" }}>
 <th className="px-3 py-0 align-middle text-xs sm:text-xs md:text-base text-center" style={{ minWidth: 60, maxWidth: 100, width: 60, borderRight: "1px solid #CCCCCC", background: "#EFEFF3", ...headerFontStyle }}>
 <Checkbox checked={checked.length === data.length && data.length > 0} onChange={handleCheckAll} />
 </th>
@@ -43,6 +43,7 @@ return (
 </tbody>
 </table>
 </div>
-)}
+)
+}
 
 export default RiskDataTable

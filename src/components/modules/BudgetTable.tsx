@@ -1,4 +1,4 @@
-// src/components/common/BudgetTable.tsx
+// src/components/modules/BudgetTable.tsx
 import React from "react";
 import DataTable, { Column, DataRow } from "@/components/common/tables/DataTable";
 import Button from "@/components/common/base/Button";

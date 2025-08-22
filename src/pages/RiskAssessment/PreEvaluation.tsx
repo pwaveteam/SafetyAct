@@ -6,6 +6,7 @@ import Button from "@/components/common/base/Button"
 import FormScreen, { Field } from "@/components/common/forms/FormScreen"
 import RiskLevelTable3x3 from "@/components/modules/RiskLevelTable3x3"
 import RiskLevelTable5x4 from "@/components/modules/RiskLevelTable5x4"
+import Spinner from "@/components/common/base/Spinner"
 
 type Props = { onClose: () => void }
 
@@ -83,24 +84,44 @@ return (
 </div>
 <div className="mt-6 flex justify-center gap-1">
 <Button variant="clear" onClick={onClose}>닫기</Button>
-<Button variant="primary" disabled={isLoading} onClick={async () => {
+
+{isLoading && (
+<div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50">
+<Spinner />
+</div>
+)}
+
+<Button
+variant="primary"
+disabled={isLoading}
+onClick={async () => {
+if (!formValues.evaluationMethod) {
+alert("평가방법을 선택해주세요.")
+return
+}
 setIsLoading(true)
+await new Promise((r) => setTimeout(r, 1500))
 await onClose()
 switch (formValues.evaluationMethod) {
-case "빈도·강도법": navigate("/risk-assessment/methods/frequency/step1"); break
-case "체크리스트법": alert("준비중입니다."); break
-case "위험성수준 3단계 판단법": navigate("/risk-assessment/methods/threestep/step1"); break
-case "화학물질 평가법": navigate("/risk-assessment/methods/chemical/step1"); break
-default: navigate("/risk-assessment/risk")
+case "빈도·강도법":
+navigate("/risk-assessment/methods/frequency/step1")
+break
+case "체크리스트법":
+alert("준비중입니다.")
+setIsLoading(false)
+return
+case "위험성수준 3단계 판단법":
+navigate("/risk-assessment/methods/threestep/step1")
+break
+case "화학물질 평가법":
+navigate("/risk-assessment/methods/chemical/step1")
+break
 }
 }}
 >
-{isLoading ? (
-<div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-) : (
-"위험성평가 실시"
-)}
+위험성평가 실시
 </Button>
+
 </div>
 </div>
 </div>

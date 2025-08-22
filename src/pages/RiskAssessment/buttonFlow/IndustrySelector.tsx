@@ -26,12 +26,12 @@ return (
 <div className="border border-[#E5E5E5] overflow-y-auto max-h-[72vh]">
 <table className="min-w-[1200px] w-full border-collapse text-xs sm:text-xs md:text-sm text-[#333]">
 <thead>
-<tr className="h-9 md:h-14" style={{ background: '#F7F8FA', borderTop: '1.9px solid #161616', borderBottom: '1px solid #CCCCCC' }}>
+<tr className="h-[33px] md:h-[45px]" style={{ background: '#F7F8FA', borderTop: '1.9px solid #161616', borderBottom: '1px solid #CCCCCC' }}>
 <th rowSpan={2} className="px-3 py-0 text-center align-middle" style={{ minWidth: 60, maxWidth: 100, width: 60, borderRight: '1px solid #CCCCCC', background: '#EFEFF3', fontWeight: 600, color: '#666666', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }} />
 <th colSpan={4} className="px-3 py-0 text-center align-middle" style={{ background: '#EFEFF3', borderRight: '1px solid #CCCCCC', fontWeight: 600, color: '#666666', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>산재업종분류</th>
 <th colSpan={3} className="px-3 py-0 text-center align-middle" style={{ background: '#EFEFF3', fontWeight: 600, color: '#666666', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>표준산업분류</th>
 </tr>
-<tr className="h-9 md:h-14" style={{ background: '#F7F8FA', borderBottom: '1px solid #CCCCCC' }}>
+<tr className="h-[33px] md:h-[45px]" style={{ background: '#F7F8FA', borderBottom: '1px solid #CCCCCC' }}>
 {['대분류', '중분류', '소분류', '세부작업', '대분류', '중분류', '소분류'].map((label, i) => (
 <th key={i} className="px-3 py-0 text-center align-middle" style={{ minWidth: i < 4 ? 150 : 100, maxWidth: i < 4 ? 150 : 100, borderRight: i === 6 ? 'none' : '1px solid #CCCCCC', background: '#EFEFF3', fontWeight: 600, color: '#666666', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{label}</th>
 ))}

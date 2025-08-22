@@ -1,15 +1,54 @@
 import React from "react"
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import Sidebar from "../Sidebar/Sidebar"
 import Breadcrumb from "../common/base/Breadcrumb"
 
 const MainLayout: React.FC = () => {
+const location = useLocation()
+const isDashboard = location.pathname === "/" || location.pathname === "/dashboard"
+
 return (
 <div style={{ display: "flex", minHeight: "100vh" }}>
 <Sidebar />
-<div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "2rem 2rem 0 2rem", background: "#F8F8F8", boxSizing: "border-box", overflow: "auto", position: "relative" }} className="main-layout-content">
+<div
+style={{
+flex: 1,
+display: "flex",
+flexDirection: "column",
+padding: "2rem 2rem 0 2rem",
+background: "#F8F8F8",
+boxSizing: "border-box",
+overflow: "auto",
+position: "relative"
+}}
+className="main-layout-content"
+>
 <Breadcrumb />
-<div style={{ background: "#fff", borderRadius: 12, padding: "2rem", boxSizing: "border-box", flex: 1, maxWidth: "96vw", width: "100%", margin: "0 auto", boxShadow: "0 0 3px rgb(0 0 0 / 0.01)", overflowY: "auto" }} className="content-wrapper">
+<div
+style={
+isDashboard
+? {
+flex: 1,
+maxWidth: "96vw",
+width: "100%",
+margin: "0 auto",
+overflowY: "auto"
+}
+: {
+background: "#fff",
+borderRadius: 12,
+padding: "2rem",
+boxSizing: "border-box",
+flex: 1,
+maxWidth: "96vw",
+width: "100%",
+margin: "0 auto",
+boxShadow: "0 0 3px rgb(0 0 0 / 0.01)",
+overflowY: "auto"
+}
+}
+className="content-wrapper"
+>
 <Outlet />
 </div>
 </div>
@@ -24,7 +63,8 @@ padding-right: 1rem !important;
 padding-left: 1rem !important;
 padding-right: 1rem !important;
 }
-}`}</style>
+}
+`}</style>
 </div>
 )
 }

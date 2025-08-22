@@ -19,7 +19,7 @@ return pages
 const pages = getPages()
 
 return (
-<div className="flex justify-center items-center gap-1 mt-3 text-xs md:text-base flex-wrap">
+<div className="flex justify-center items-center gap-1 mt-3 text-[13px] md:text-[13.5px] flex-wrap">
 <button
 className="h-8 px-2 border rounded-lg hover:bg-gray-100 transition disabled:opacity-50"
 onClick={() => onPageChange(1)}
