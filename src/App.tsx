@@ -6,7 +6,9 @@ import MainLayout from "./components/layout/MainLayout"
 import RiskAssessmentLayout from "./components/layout/RiskAssessmentLayout"
 import BusinessManagementLayout from "./components/layout/BusinessManagementLayout"
 
+import Login from "./pages/Login"
 import Dashboard from "./pages/Dashboard/Dashboard"
+
 import TBM from "./pages/TBM/TBM"
 import TBMRegister from "./pages/TBM/TBMRegister"
 
@@ -69,6 +71,9 @@ import UserGuide from "./pages/UserGuide/UserGuide"
 const App: React.FC = () => (
 <BrowserRouter>
 <Routes>
+
+<Route path="/login" element={<Login />} />
+
 <Route element={<MainLayout />}>
 <Route path="/" element={<Navigate to="/dashboard" replace />} />
 <Route path="/dashboard" element={<Dashboard />} />
