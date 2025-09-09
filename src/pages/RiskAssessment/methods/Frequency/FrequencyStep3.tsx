@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom"
 import StepBar from "@/components/modules/StepBar"
 import DataTable, { Column } from "@/components/common/tables/DataTable"
 import Button from "@/components/common/base/Button"
-import { Upload, ChevronDown, ChevronRight, ChevronLeft, Save, Trash2, Printer, FileDown } from "lucide-react"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import { Upload, ChevronLeft, Save, Trash2, Printer, FileDown } from "lucide-react"
 import PageTitle from "@/components/common/base/PageTitle"
 import EditableTextArea from "@/components/common/inputs/EditableTextArea"
+import DatePicker from "@/components/common/inputs/DatePicker"
 
 type RiskDataRow = {
 id: number
@@ -73,13 +72,13 @@ setCheckedRows([])
 const columns: Column<RiskDataRow>[] = [
 { key: "id", label: "번호", minWidth: 50, renderCell: row => <div>{row.id}</div> },
 { key: "work", label: "공정(작업)", minWidth: 60, renderCell: row => <span className="text-[#999999]">{row.work}</span> },
-{ key: "hazard", label: "유해위험요인", minWidth: 500, renderCell: row => <span className="text-left text-[#999999]">{row.hazard}</span> },
-{ key: "action", label: "감소대책", minWidth: 400, renderCell: r => <EditableTextArea value={r.action} onChange={v => setData(prev => prev.map(x => x.id === r.id ? { ...x, action: v } : x))} /> },
+{ key: "hazard", label: "유해위험요인", minWidth: 450, renderCell: row => <span className="text-left text-[#999999]">{row.hazard}</span> },
+{ key: "action", label: "감소대책", minWidth: 390, renderCell: r => <EditableTextArea value={r.action} onChange={v => setData(prev => prev.map(x => x.id === r.id ? { ...x, action: v } : x))} /> },
 { key: "plannedDate", label: "개선예정일", minWidth: 90, renderCell: r => <DatePicker selected={r.plannedDate} onChange={d => d && setData(prev => prev.map(x => x.id === r.id ? { ...x, plannedDate: d } : x))} dateFormat="yyyy-MM-dd" className="w-full text-center" /> },
 { key: "completedDate", label: "개선완료일", minWidth: 90, renderCell: r => <DatePicker selected={r.completedDate} onChange={d => d && setData(prev => prev.map(x => x.id === r.id ? { ...x, completedDate: d } : x))} dateFormat="yyyy-MM-dd" className="w-full text-center" /> },
-{ key: "evaluator", label: "평가담당자", minWidth: 35, maxWidth: 0, renderCell: r => <EditableTextArea value={r.evaluator} onChange={v => setData(prev => prev.map(x => x.id === r.id ? { ...x, evaluator: v } : x))} /> },
-{ key: "frequency", label: "빈도", minWidth: 65, renderCell: r => <div className="relative"><select style={selectStyle} value={r.frequency} onChange={e => setData(prev => prev.map(x => x.id === r.id ? { ...x, frequency: Number(e.target.value) } : x))}>{[1, 2, 3].map(v => <option key={v}>{v}</option>)}</select><ChevronDown size={16} className="absolute right-1 top-1/2 -translate-y-1/2" /></div> },
-{ key: "intensity", label: "강도", minWidth: 60, renderCell: r => <div className="relative"><select style={selectStyle} value={r.intensity} onChange={e => setData(prev => prev.map(x => x.id === r.id ? { ...x, intensity: Number(e.target.value) } : x))}>{[1, 2, 3].map(v => <option key={v}>{v}</option>)}</select><ChevronDown size={16} className="absolute right-1 top-1/2 -translate-y-1/2" /></div> },
+{ key: "evaluator", label: "평가담당자", minWidth: 30, maxWidth: 0, renderCell: r => <EditableTextArea value={r.evaluator} onChange={v => setData(prev => prev.map(x => x.id === r.id ? { ...x, evaluator: v } : x))} /> },
+{ key: "frequency", label: "빈도", minWidth: 80, renderCell: r => <div className="relative"><select style={selectStyle} value={r.frequency} onChange={e => setData(prev => prev.map(x => x.id === r.id ? { ...x, frequency: Number(e.target.value) } : x))}>{[1, 2, 3].map(v => <option key={v}>{v}</option>)}</select></div> },
+{ key: "intensity", label: "강도", minWidth: 80, renderCell: r => <div className="relative"><select style={selectStyle} value={r.intensity} onChange={e => setData(prev => prev.map(x => x.id === r.id ? { ...x, intensity: Number(e.target.value) } : x))}>{[1, 2, 3].map(v => <option key={v}>{v}</option>)}</select></div> },
 { key: "risk", label: "위험성", minWidth: 65, renderCell: r => { const val = r.frequency * r.intensity; const getRiskColor = (v: number) => v >= 7 ? "#FF3939" : v >= 4 ? "#FFE13E" : "#1EED1E"; return <div className="flex justify-center"><span className="px-5 py-1 rounded-lg text-sm font-medium" style={{ backgroundColor: getRiskColor(val) }}>{val}</span></div> } },
 { key: "afterPhoto", label: "개선후 사진", minWidth: 100, renderCell: (_r, _col, rowIdx) => <><input type="file" accept="image/*" style={{ display: "none" }} ref={(el: HTMLInputElement | null) => { afterRefs.current[rowIdx] = el }} onChange={e => { const file = e.target.files?.[0]; if (!file) return; const url = URL.createObjectURL(file); setData(prev => prev.map((r, i) => i === rowIdx ? { ...r, afterPhoto: url } : r)) }} /><button type="button" onClick={() => afterRefs.current[rowIdx]?.click()}><Upload size={19} /></button></> }
 ]

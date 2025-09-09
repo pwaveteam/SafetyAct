@@ -4,8 +4,7 @@ import StepBar from "@/components/modules/StepBar"
 import DataTable, { Column } from "@/components/common/tables/DataTable"
 import Button from "@/components/common/base/Button"
 import { Upload, ChevronDown, ChevronRight, ChevronLeft, Save, Trash2, Printer, FileDown } from "lucide-react"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import DatePicker from "@/components/common/inputs/DatePicker"
 import PageTitle from "@/components/common/base/PageTitle"
 import EditableTextArea from "@/components/common/inputs/EditableTextArea"
 
@@ -55,11 +54,11 @@ setCheckedRows([])
 const columns: Column<RiskDataRow>[] = [
 { key: "id", label: "번호", minWidth: 50, renderCell: row => <div>{row.id}</div> },
 { key: "work", label: "공정(작업)", minWidth: 60, renderCell: row => <span className="text-[#999999]">{row.work}</span> },
-{ key: "hazard", label: "유해위험요인", minWidth: 500, renderCell: row => <span className="text-left text-[#999999]">{row.hazard}</span> },
-{ key: "action", label: "감소대책", minWidth: 400, renderCell: r => <EditableTextArea value={r.action} onChange={v => setData(prev => prev.map(x => x.id === r.id ? { ...x, action: v } : x))} /> },
+{ key: "hazard", label: "유해위험요인", minWidth: 480, renderCell: row => <span className="text-left text-[#999999]">{row.hazard}</span> },
+{ key: "action", label: "감소대책", minWidth: 390, renderCell: r => <EditableTextArea value={r.action} onChange={v => setData(prev => prev.map(x => x.id === r.id ? { ...x, action: v } : x))} /> },
 { key: "plannedDate", label: "개선예정일", minWidth: 90, renderCell: r => <DatePicker selected={r.plannedDate} onChange={d => d && setData(prev => prev.map(x => x.id === r.id ? { ...x, plannedDate: d } : x))} dateFormat="yyyy-MM-dd" className="w-full text-center" /> },
 { key: "completedDate", label: "개선완료일", minWidth: 90, renderCell: r => <DatePicker selected={r.completedDate} onChange={d => d && setData(prev => prev.map(x => x.id === r.id ? { ...x, completedDate: d } : x))} dateFormat="yyyy-MM-dd" className="w-full text-center" /> },
-{ key: "evaluator", label: "평가담당자", minWidth: 35, maxWidth: 0, renderCell: r => <EditableTextArea value={r.evaluator} onChange={v => setData(prev => prev.map(x => x.id === r.id ? { ...x, evaluator: v } : x))} /> },
+{ key: "evaluator", label: "평가담당자", minWidth: 30, maxWidth: 0, renderCell: r => <EditableTextArea value={r.evaluator} onChange={v => setData(prev => prev.map(x => x.id === r.id ? { ...x, evaluator: v } : x))} /> },
 { key: "riskLevel", label: "위험성 수준판단", minWidth: 180, renderCell: row => (<div className="flex justify-center gap-3">{[3,2,1].map(level => { const color = level === 3 ? "#FF3939" : level === 2 ? "#FFE13E" : "#1EED1E"; const text = level === 3 ? "상" : level === 2 ? "중" : "하"; return (<div key={level} className="flex items-center gap-1 cursor-pointer" onClick={() => setData(prev => prev.map(r => r.id === row.id ? { ...r, riskLevel: level } : r))}><div className="w-3.5 h-3.5 rounded-full flex items-center justify-center" style={{ border: `1px solid ${color}` }}>{row.riskLevel === level && <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />}</div><span className="text-xs md:text-base font-medium text-[#333639]">{text}({level})</span></div>) })}</div>) },
 { key: "afterPhoto", label: "개선후 사진", minWidth: 100, renderCell: (_r, _col, rowIdx) => <><input type="file" accept="image/*" style={{ display: "none" }} ref={(el: HTMLInputElement | null) => { afterRefs.current[rowIdx] = el }} onChange={e => { const file = e.target.files?.[0]; if (!file) return; const url = URL.createObjectURL(file); setData(prev => prev.map((r, i) => i === rowIdx ? { ...r, afterPhoto: url } : r)) }} /><button type="button" onClick={() => afterRefs.current[rowIdx]?.click()}><Upload size={19} /></button></> }
 ]

@@ -20,7 +20,6 @@ backgroundImage: "url(\"data:image/svg+xml,%3csvg fill='%23666666' height='32' v
 backgroundRepeat: "no-repeat",
 backgroundPosition: "right 10px center",
 backgroundSize: "28px 30px",
-lineHeight: "39px"
 }}>
 {years.map(y => (<option key={y} value={y}>{y}</option>))}
 </select>

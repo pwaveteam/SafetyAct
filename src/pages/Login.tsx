@@ -1,4 +1,3 @@
-// src/pages/Auth/Login.tsx
 import { useState, FormEvent } from "react"
 import { useNavigate } from "react-router-dom"
 import Checkbox from "../components/common/base/Checkbox"
@@ -57,7 +56,7 @@ return(
 )}
 {modal==="forgotPw"&&(
 <div className="space-y-5">
-<h3 className="text-xl font-semibold text-center">비밀번호 찾기</h3>
+<h2 className="text-xl font-semibold text-center">비밀번호 찾기</h2>
 <input type="text" placeholder="관리자 아이디" className="w-full rounded-md px-3 py-3 bg-white/90 text-gray-900 focus:ring-2 focus:ring-[#031E36] outline-none"/>
 <input type="text" placeholder="연락처" className="w-full rounded-md px-3 py-3 bg-white/90 text-gray-900 focus:ring-2 focus:ring-[#031E36] outline-none" onChange={e=>{e.target.value=e.target.value.replace(/[^0-9]/g,"")}}/>
 <div className="flex gap-3">

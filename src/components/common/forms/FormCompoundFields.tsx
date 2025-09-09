@@ -1,5 +1,4 @@
 import React from "react"
-import { ChevronDown } from "lucide-react"
 import RadioGroup from "@/components/common/base/RadioGroup"
 
 type CompoundFieldProps = {
@@ -35,7 +34,6 @@ return (
 <option value="L">L</option>
 <option value="mL">mL</option>
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
 </div>
 </div>
 <div className={groupClass}>
@@ -108,7 +106,6 @@ return (
 <option value="3등급">3등급</option>
 <option value="4등급">4등급</option>
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
 </div>
 </div>
 )

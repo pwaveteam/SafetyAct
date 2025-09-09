@@ -1,7 +1,7 @@
 // FormScreen.tsx
 import React, { useState, useEffect } from "react"
 import Button from "@/components/common/base/Button"
-import { ChevronDown, X, Search } from "lucide-react"
+import { X, Search } from "lucide-react"
 import RadioGroup from "@/components/common/base/RadioGroup"
 
 export type Field = {
@@ -74,7 +74,9 @@ const BG_PW = "bg-[#EEF5FF] text-[#333639]"
 const TEXTAREA_STYLE = `${COMMON_BORDER} ${COMMON_PLACEHOLDER} ${COMMON_TEXT} p-2 w-full min-h-[150px] ${BG_EDITABLE}`
 const FILE_WRAPPER = `w-full h-[38px] ${COMMON_BORDER} flex items-center justify-center ${COMMON_PLACEHOLDER} ${COMMON_TEXT}`
 const CELL_TEXT = "text-[#333639] text-sm md:text-[15px] font-normal"
-const BASE_INPUT = `${COMMON_BORDER} px-2 h-[39px] w-full appearance-none ${COMMON_PLACEHOLDER} ${COMMON_TEXT}`    
+const BASE_INPUT = `${COMMON_BORDER} px-2 h-[39px] w-full appearance-none select-reset ${COMMON_PLACEHOLDER} ${COMMON_TEXT}`
+
+
 const SELECT_PADDING = "pr-8"
 
 const [tagItems, setTagItems] = useState<{ value: string; label: string }[]>([])
@@ -158,7 +160,6 @@ disabled={field.name === "notifyWhen" && !notifyEnabled}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
 </div>
 )
 
@@ -242,7 +243,7 @@ required
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 <div className="relative w-[60px]">
 <select
@@ -259,7 +260,7 @@ required
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 </div>
 
@@ -280,7 +281,7 @@ required
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 <div className="relative w-[60px]">
 <select
@@ -297,7 +298,7 @@ required
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 </div>
 )
@@ -342,7 +343,7 @@ className={`${baseInput} ${BG_EDITABLE} pr-3 w-[130px] md:w-[160px]`}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 
 <div className="relative basis-1/6">
@@ -359,7 +360,7 @@ className={`${baseInput} ${BG_EDITABLE} pr-3 w-[130px] md:w-[160px]`}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 
 <span className="text-sm md:text-[15px] text-[#333639]">~</span>
@@ -378,7 +379,7 @@ className={`${baseInput} ${BG_EDITABLE} pr-3 w-[130px] md:w-[160px]`}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 
 <div className="relative basis-1/6">
@@ -395,7 +396,7 @@ className={`${baseInput} ${BG_EDITABLE} pr-3 w-[130px] md:w-[160px]`}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 </div>
 )
@@ -455,7 +456,7 @@ className={`${baseInput} ${BG_EDITABLE} pr-3 w-full text-sm md:text-[15px]`}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 
 <div className="relative w-[66px] md:w-[80px] shrink-0">
@@ -472,7 +473,7 @@ className={`${baseInput} ${BG_EDITABLE} pr-3 w-full text-sm md:text-[15px]`}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 
 <span className="text-sm md:text-[15px] text-[#333639] shrink-0">~</span>
@@ -491,7 +492,7 @@ className={`${baseInput} ${BG_EDITABLE} pr-3 w-full text-sm md:text-[15px]`}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 
 <div className="relative w-[66px] md:w-[80px] shrink-0">
@@ -508,7 +509,7 @@ className={`${baseInput} ${BG_EDITABLE} pr-3 w-full text-sm md:text-[15px]`}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 </div>
 
@@ -551,7 +552,7 @@ className={`${BASE_INPUT} ${BG_EDITABLE} pr-8 w-full text-sm md:text-[15px]`}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 
 <span className="text-sm md:text-[15px] text-[#333639]">-</span>
@@ -649,7 +650,7 @@ className={`${baseInput} ${BG_EDITABLE} pr-8 w-full text-sm md:text-[15px]`}
 <option value="hanmail.net">hanmail.net</option>
 <option value="nate.com">nate.com</option>
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 </div>
 )
@@ -732,7 +733,7 @@ className={`${BASE_INPUT} ${BG_EDITABLE} w-full ${SELECT_PADDING}`}
 </option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 </div>
 )

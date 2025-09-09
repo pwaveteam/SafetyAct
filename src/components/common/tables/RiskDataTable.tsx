@@ -15,7 +15,8 @@ const handleCheck = (id: number | string) => setChecked(prev => prev.includes(id
 React.useEffect(() => { onCheckedChange?.(checked) }, [checked, onCheckedChange])
 
 return (
-<div className="overflow-x-auto">
+<div className="risk-table overflow-x-auto">
+<style>{`.risk-table select{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:none;padding-right:2rem}`}</style>
 <table className="w-full table-fixed border-collapse min-w-[600px] md:min-w-auto">
 <thead>
 <tr className="h-[33px] md:h-[45px]" style={{ background: "#F7F8FA", borderTop: "1.9px solid #161616", borderBottom: "1px solid #CCCCCC" }}>
@@ -34,7 +35,7 @@ return (
 <Checkbox checked={checked.includes(row.id)} onChange={() => handleCheck(row.id)} />
 </td>
 {columns.map((col, colIdx) => (
-<td key={col.key} className={`px-3 py-0 align-middle text-xs sm:text-xs md:text-base ${col.align === "left" ? "text-left" : col.align === "right" ? "text-right" : "text-center"}`} style={{ width: col.width ?? col.minWidth ?? 60, minWidth: col.minWidth ?? col.width ?? 60, maxWidth: col.maxWidth ?? 300, borderRight: colIdx === columns.length - 1 ? "none" : "1px solid #CCCCCC", borderBottom: "1px solid #CCCCCC", ...bodyFontStyle }} title={col.titleKey && typeof row[col.titleKey] === "string" ? row[col.titleKey] as string : undefined}>
+<td key={col.key} className={`px-3 py-0 align-middle text-xs sm:text-xs md:text-base ${col.align === "left" ? "text-left" : col.align === "right" ? "text-right" : "text-center"}`} style={{ width: col.width ?? col.minWidth ?? 60, minWidth: col.minWidth ?? col.width ?? 60, maxWidth: col.maxWidth ?? 300, borderRight: colIdx === columns.length - 1 ? "none" : "1px solid #CCCCCC", borderBottom: "1px solid #CCCCCC", ...bodyFontStyle }} title={col.titleKey && typeof row[col.titleKey] === "string" ? (row[col.titleKey] as string) : undefined}>
 {col.renderCell ? col.renderCell(row, col, rowIdx) : renderCell ? renderCell(row, col, rowIdx) : row[col.key]}
 </td>
 ))}

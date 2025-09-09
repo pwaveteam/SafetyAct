@@ -4,8 +4,7 @@ import StepBar from "@/components/modules/StepBar"
 import DataTable, { Column } from "@/components/common/tables/DataTable"
 import Button from "@/components/common/base/Button"
 import { Upload, ChevronRight, ChevronLeft, Trash2, Save } from "lucide-react"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import DatePicker from "@/components/common/inputs/DatePicker"
 import PageTitle from "@/components/common/base/PageTitle"
 import EditableTextArea from "@/components/common/inputs/EditableTextArea"
 
@@ -73,7 +72,7 @@ const columns: Column<RiskDataRow>[] = [
 { key: "action", label: "현재 안전보건조치", minWidth: 500, renderCell: row => <EditableTextArea value={row.action} onChange={() => {}} placeholder="현재 안전보건조치 입력" /> },
 { key: "riskLevel", label: "위험성 수준판단", minWidth: 180, renderCell: row => (<div className="flex justify-center gap-3">{[3,2,1].map(level => { const color = level === 3 ? "#FF3939" : level === 2 ? "#FFE13E" : "#1EED1E"; const text = level === 3 ? "상" : level === 2 ? "중" : "하"; return (<div key={level} className="flex items-center gap-1 cursor-pointer" onClick={() => setData(prev => prev.map(r => r.id === row.id ? { ...r, riskLevel: level } : r))}><div className="w-3.5 h-3.5 rounded-full flex items-center justify-center" style={{ border: `1px solid ${color}` }}>{row.riskLevel === level && <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />}</div><span className="text-xs md:text-base font-medium text-[#333639]">{text}({level})</span></div>) })}</div>) },
 { key: "afterPhoto", label: "평가현장 사진", minWidth: 100, renderCell: (_r, _col, rowIdx) => <><input type="file" accept="image/*" style={{ display: "none" }} ref={el => { afterFileRefs.current[rowIdx] = el }} onChange={e => handleFileChange(e, rowIdx, "after")} /><button type="button" onClick={() => handleFileClick(rowIdx, "after")}><Upload size={19} /></button></> },
-{ key: "evaluationDate", label: "평가일자", minWidth: 90, maxWidth: 90, renderCell: row => <DatePicker selected={row.evaluationDate} onChange={d => d && setData(prev => prev.map(r => r.id === row.id ? { ...r, evaluationDate: d } : r))} dateFormat="yyyy-MM-dd" className="w-full text-center" wrapperClassName="w-full" popperPlacement="top" /> }
+{ key:"evaluationDate", label:"평가일자", minWidth:110, maxWidth:120, renderCell:row=><DatePicker value={row.evaluationDate} onChange={d=>setData(prev=>prev.map(r=>r.id===row.id?{...r,evaluationDate:d}:r))} /> },
 ]
 
 return (

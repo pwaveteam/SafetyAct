@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom"
 import StepBar from "@/components/modules/StepBar"
 import DataTable, { Column } from "@/components/common/tables/DataTable"
 import Button from "@/components/common/base/Button"
-import { Upload, ChevronDown, ChevronRight, ChevronLeft, Trash2, Save } from "lucide-react"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import { Upload, ChevronRight, ChevronLeft, Trash2, Save } from "lucide-react"
 import PageTitle from "@/components/common/base/PageTitle"
 import EditableTextArea from "@/components/common/inputs/EditableTextArea"
+import DatePicker from "@/components/common/inputs/DatePicker"
 
 type RiskDataRow = {
 id: number
@@ -99,13 +98,12 @@ const columns: Column<RiskDataRow>[] = [
 { key: "work", label: "공정(작업)", minWidth: 60, renderCell: row => <span className="text-[#999999]">{row.work}</span> },
 { key: "hazard", label: "유해위험요인", minWidth: 500, renderCell: row => <span className="text-left text-[#999999]">{row.hazard}</span> },
 { key: "action", label: "현재 안전보건조치", minWidth: 500, renderCell: row => <EditableTextArea value={row.action} onChange={() => {}} placeholder="현재 안전보건조치 입력" /> },
-{ key: "frequency", label: "빈도", minWidth: 60, renderCell: row => <div className="relative"><select style={selectStyle} value={row.frequency} onChange={e => setData(prev => prev.map(r => r.id === row.id ? { ...r, frequency: Number(e.target.value) } : r))} className="font-semibold">{[1, 2, 3].map(v => <option key={v}>{v}</option>)}</select><ChevronDown size={16} className="absolute right-1 top-1/2 -translate-y-1/2" /></div> },
-{ key: "intensity", label: "강도", minWidth: 60, renderCell: row => <div className="relative"><select style={selectStyle} value={row.intensity} onChange={e => setData(prev => prev.map(r => r.id === row.id ? { ...r, intensity: Number(e.target.value) } : r))} className="font-semibold">{[1, 2, 3].map(v => <option key={v}>{v}</option>)}</select><ChevronDown size={16} className="absolute right-1 top-1/2 -translate-y-1/2" /></div> },
+{ key: "frequency", label: "빈도", minWidth: 60, renderCell: row => <div className="relative"><select style={selectStyle} value={row.frequency} onChange={e => setData(prev => prev.map(r => r.id === row.id ? { ...r, frequency: Number(e.target.value) } : r))} className="font-semibold">{[1, 2, 3].map(v => <option key={v}>{v}</option>)}</select></div> },
+{ key: "intensity", label: "강도", minWidth: 60, renderCell: row => <div className="relative"><select style={selectStyle} value={row.intensity} onChange={e => setData(prev => prev.map(r => r.id === row.id ? { ...r, intensity: Number(e.target.value) } : r))} className="font-semibold">{[1, 2, 3].map(v => <option key={v}>{v}</option>)}</select></div> },
 { key: "risk", label: "위험성", minWidth: 60, renderCell: row => { const val = calcRisk(row.frequency, row.intensity); return <div className="flex justify-center"><span className="px-5 py-1 rounded-lg font-bold" style={{ backgroundColor: getRiskColor(val) }}>{val}</span></div> } },
 { key: "afterPhoto", label: "평가현장 사진", minWidth: 100, renderCell: (_r, _col, rowIdx) => <><input type="file" accept="image/*" style={{ display: "none" }} ref={el => { afterFileRefs.current[rowIdx] = el }} onChange={e => handleFileChange(e, rowIdx, "after")} /><button type="button" onClick={() => handleFileClick(rowIdx, "after")}><Upload size={19} /></button></> },
-{ key: "evaluationDate", label: "평가일자", minWidth: 90, maxWidth: 90, renderCell: row => <DatePicker selected={row.evaluationDate} onChange={d => d && setData(prev => prev.map(r => r.id === row.id ? { ...r, evaluationDate: d } : r))} dateFormat="yyyy-MM-dd" className="w-full text-center" wrapperClassName="w-full" popperPlacement="top" /> }
+{ key:"evaluationDate", label:"평가일자", minWidth:110, maxWidth:120, renderCell:row=><DatePicker value={row.evaluationDate} onChange={d=>setData(prev=>prev.map(r=>r.id===row.id?{...r,evaluationDate:d}:r))} /> },
 ]
-
 
 return (
 <section className="mypage-content w-full px-3 py-1 bg-[#F8F8F8] flex flex-col min-h-screen">

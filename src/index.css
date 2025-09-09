@@ -3,6 +3,6 @@
 @tailwind utilities; 
 
 .ql-editor {
-    min-height: 100px !important;
-    height: 260px !important;
-  }
+min-height: 100px !important;
+height: 260px !important;
+}

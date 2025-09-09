@@ -1,6 +1,5 @@
 "use client"
 import React, { useState } from "react"
-import { ChevronDown } from "lucide-react"
 import Button from "@/components/common/base/Button"
 import FormScreen, { Field } from "@/components/common/forms/FormScreen"
 import ToggleSwitch from "@/components/common/base/ToggleSwitch"
@@ -68,7 +67,7 @@ label: "교육과정", name: "course", type: "custom", customRender: (
 <option key={course} value={course}>{course}</option>
 ))}
 </select>
-<ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4 pointer-events-none" />
+
 </div>
 {hourText && <span className="text-sm md:text-[15px] font-medium text-[#6D808E] whitespace-nowrap">교육시간: {hourText}</span>}
 </div>
