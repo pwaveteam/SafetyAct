@@ -1,4 +1,4 @@
-import React,{useState}from"react"
+import React,{useState,useCallback}from"react"
 import{NavLink,useNavigate}from"react-router-dom"
 import logo from"../../assets/logo.png"
 import { PanelRightClose, PanelRightOpen } from "lucide-react"
@@ -22,7 +22,6 @@ ShieldCheckIcon,
 ExclamationTriangleIcon
 } from "@heroicons/react/24/outline"
 
-
 interface MenuItem{label:string;path:string;Icon?:React.ComponentType<React.SVGProps<SVGSVGElement>>}
 interface SidebarProps{companyName?:string;adminName?:string}
 
@@ -38,6 +37,8 @@ const navigate=useNavigate()
 const categoryTextColor="#6B7280"
 const DESKTOP_W=230
 
+const handleLogout=useCallback(()=>{try{localStorage.removeItem("accessToken");sessionStorage.removeItem("accessToken")}catch(_){}setIsOpen(false);alert("로그아웃되었습니다. 로그인 페이지로 이동합니다.");navigate("/login")},[navigate])
+
 return(<>
 {!isOpen&&(<header className="fixed top-0 left-0 right-0 h-16 bg-white/95 backdrop-blur border-b border-[#E6EAF0] flex items-center px-4 md:hidden z-50"><button type="button" aria-label="메뉴 열기" onClick={()=>setIsOpen(true)} className="rounded-md text-[#334155] hover:text-[#1C56D3] transition-colors duration-300"><Bars3Icon className="w-6 h-6"/></button><img src={logo} alt={`${companyName} logo`} className="w-[160px] cursor-pointer mx-auto max-w-[calc(100%-48px)]" onClick={()=>navigate("/dashboard")}/></header>)}
 {isOpen&&(<div onClick={()=>setIsOpen(false)} className="fixed inset-0 bg-black/40 z-40 md:hidden"/>)}
@@ -48,7 +49,6 @@ return(<>
 <div className="text-left font-normal text-gray-600 text-sm pl-1.5 leading-4">
 {adminName}님 안녕하세요!
 </div>
-
 <button type="button" aria-label="닫기" onClick={()=>setIsOpen(false)} className="absolute top-4 right-4 rounded-md"><XMarkIcon className="w-6 h-6 text-[#3C4657] hover:text-[#1C56D3] transition-colors duration-300"/></button>
 </div>
 <div className="hidden md:flex flex-col items-center p-6 border-b border-[#E6EAF0]">
@@ -104,25 +104,14 @@ return(<>
 ))}
 </ul>
 <div className="mt-5">
-<button onClick={()=>{navigate("/logout");setIsOpen(false)}} className="w-full border border-[#D7DEE8] rounded-lg bg-white text-[#405066] font-medium text-base hover:bg-[#F6F9FE] hover:text-[#1C56D3] transition-colors flex items-center justify-center gap-2 px-3" style={{height:40}}><ArrowRightOnRectangleIcon className="w-5 h-5"/>로그아웃</button>
+<button onClick={handleLogout} className="w-full border border-[#D7DEE8] rounded-lg bg-white text-[#405066] font-medium text-base hover:bg-[#F6F9FE] hover:text-[#1C56D3] transition-colors flex items-center justify-center gap-2 px-3" style={{height:40}} aria-label="로그아웃"><ArrowRightOnRectangleIcon className="w-5 h-5"/><span>로그아웃</span></button>
 </div>
 </div>
 </div>
 </aside>
-<div
-className="hidden md:block fixed z-50 top-[80px]"
-style={{left:isDesktopOpen ? DESKTOP_W-33 : 0}}
->
-<button
-aria-label={isDesktopOpen ? "사이드바 접기" : "사이드바 열기"}
-className="w-8 h-8 bg-[#1E293B] border border-[#334155] rounded-lg shadow-sm flex items-center justify-center hover:bg-[#273349] active:bg-[#1C2535] transition"
-onClick={()=>setIsDesktopOpen(v=>!v)}
->
-{isDesktopOpen ? (
-<PanelRightOpen className="w-4 h-4 text-[#DEE6F0]" strokeWidth={2.2}/>
-) : (
-<PanelRightClose className="w-4 h-4 text-[#DEE6F0]" strokeWidth={2.2}/>
-)}
+<div className="hidden md:block fixed z-50 top-[80px]" style={{left:isDesktopOpen?DESKTOP_W-33:0}}>
+<button aria-label={isDesktopOpen?"사이드바 접기":"사이드바 열기"} className="w-8 h-8 bg-[#1E293B] border border-[#334155] rounded-lg shadow-sm flex items-center justify-center hover:bg-[#273349] active:bg-[#1C2535] transition" onClick={()=>setIsDesktopOpen(v=>!v)}>
+{isDesktopOpen?(<PanelRightOpen className="w-4 h-4 text-[#DEE6F0]" strokeWidth={2.2}/>):(<PanelRightClose className="w-4 h-4 text-[#DEE6F0]" strokeWidth={2.2}/>)}
 </button>
 </div>
 <div aria-hidden className="hidden md:block shrink-0 transition-[width] duration-300" style={{width:isDesktopOpen?DESKTOP_W:0}}/>

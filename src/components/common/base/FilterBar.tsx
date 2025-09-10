@@ -45,7 +45,7 @@ options: { value: string; label: string }[]
 <select className={`${INPUT_CLASS} w-full appearance-none pr-8`} value={value} onChange={e => onChange(e.target.value)}>
 {options.map(opt => (<option key={opt.value} value={opt.value}>{opt.label}</option>))}
 </select>
-<ChevronDown className="absolute right-2 pointer-events-none text-gray-500" />
+{/* <ChevronDown className="absolute right-2 pointer-events-none text-gray-500" /> */}
 </div>
 )
 
