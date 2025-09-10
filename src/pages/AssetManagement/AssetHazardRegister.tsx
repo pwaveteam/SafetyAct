@@ -5,6 +5,7 @@ import ToggleSwitch from "@/components/common/base/ToggleSwitch";
 import RadioGroup from "@/components/common/base/RadioGroup";
 import ChemicalAutocomplete from "@/components/common/inputs/ChemicalAutocomplete";
 
+type AlertWhen="1일 전"|"1주일 전"|"1개월 전";
 type Props={isOpen:boolean;onClose:()=>void;onSave:(data:FormDataState)=>void};
 type FormDataState={
 chemicalName:string;casNo:string;
@@ -13,10 +14,35 @@ dailyUsageValue:string;dailyUsageUnit:string;
 storageAmountValue:string;storageAmountUnit:string;
 corrosive:"예"|"아니오";toxicity:string;adverseReaction:string;
 registrationDate:string;inspectionCycle:string;
-msds:File|null;note:string;notify:boolean;notifyWhen:"1일 전"|"1주일 전"|"1개월 전"
+msds:File|null;note:string;notify:boolean;notifyWhen:AlertWhen
 };
 
-export default function AssetHazardRegister({isOpen,onClose,onSave}:Props):React.ReactElement{
+type Option={value:string;label:string};
+const concentrationUnits:Option[]=[
+{value:"ppb",label:"ppb"},{value:"ppm",label:"ppm"},
+{value:"mg/m³",label:"mg/m³"},{value:"µg/m³",label:"µg/m³"},
+{value:"mg/L",label:"mg/L"},{value:"µg/L",label:"µg/L"}
+];
+const usageUnits:Option[]=[
+{value:"µL",label:"µL"},{value:"mL",label:"mL"},{value:"L",label:"L"},
+{value:"cm³",label:"cm³"},{value:"m³",label:"m³"},
+{value:"µg",label:"µg"},{value:"mg",label:"mg"},{value:"g",label:"g"},{value:"kg",label:"kg"}
+];
+const storageUnits:Option[]=[
+{value:"ng",label:"ng"},{value:"µg",label:"µg"},{value:"mg",label:"mg"},
+{value:"g",label:"g"},{value:"kg",label:"kg"},{value:"t",label:"t"},
+{value:"µL",label:"µL"},{value:"mL",label:"mL"},{value:"L",label:"L"},
+{value:"cm³",label:"cm³"},{value:"m³",label:"m³"}
+];
+const inspectionCycleOptions:Option[]=[
+{value:"상시",label:"상시"},{value:"주간",label:"주간"},
+{value:"월간",label:"월간"},{value:"분기",label:"분기"},{value:"연간",label:"연간"}
+];
+const alertTimingOptions:Option[]=[
+{value:"1일 전",label:"1일 전"},{value:"1주일 전",label:"1주일 전"},{value:"1개월 전",label:"1개월 전"}
+];
+
+export default function AssetHazardRegister({isOpen,onClose,onSave}:Props):React.ReactElement|null{
 const [formData,setFormData]=useState<FormDataState>({
 chemicalName:"",casNo:"",
 exposureLimitValue:"",exposureLimitUnit:"",
@@ -30,34 +56,10 @@ msds:null,note:"",notify:false,notifyWhen:"1일 전"
 const handleChange=useCallback((e:React.ChangeEvent<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>):void=>{
 const {name,value,type,checked,files}=e.target as HTMLInputElement;
 if(name.endsWith("Value")&&value!==""&&!/^\d*\.?\d*$/.test(value))return;
-if(type==="checkbox")setFormData(prev=>({...prev,[name]:checked}));
-else if(type==="file")setFormData(prev=>({...prev,msds:files?.[0]??null}));
-else setFormData(prev=>({...prev,[name]:value}));
+if(type==="checkbox"){setFormData(prev=>({...prev,[name]:checked}));return}
+if(type==="file"){setFormData(prev=>({...prev,msds:files?.[0]??null}));return}
+setFormData(prev=>({...prev,[name]:value}));
 },[]);
-
-const concentrationUnits:{value:string;label:string}[]=[
-{value:"ppb",label:"ppb"},{value:"ppm",label:"ppm"},
-{value:"mg/m³",label:"mg/m³"},{value:"µg/m³",label:"µg/m³"},
-{value:"mg/L",label:"mg/L"},{value:"µg/L",label:"µg/L"}
-];
-const usageUnits:{value:string;label:string}[]=[
-{value:"µL",label:"µL"},{value:"mL",label:"mL"},{value:"L",label:"L"},
-{value:"cm³",label:"cm³"},{value:"m³",label:"m³"},
-{value:"µg",label:"µg"},{value:"mg",label:"mg"},{value:"g",label:"g"},{value:"kg",label:"kg"}
-];
-const storageUnits:{value:string;label:string}[]=[
-{value:"ng",label:"ng"},{value:"µg",label:"µg"},{value:"mg",label:"mg"},
-{value:"g",label:"g"},{value:"kg",label:"kg"},{value:"t",label:"t"},
-{value:"µL",label:"µL"},{value:"mL",label:"mL"},{value:"L",label:"L"},
-{value:"cm³",label:"cm³"},{value:"m³",label:"m³"}
-];
-const inspectionCycleOptions:{value:string;label:string}[]=[
-{value:"상시",label:"상시"},{value:"주간",label:"주간"},
-{value:"월간",label:"월간"},{value:"분기",label:"분기"},{value:"연간",label:"연간"}
-];
-const alertTimingOptions:{value:string;label:string}[]=[
-{value:"1일 전",label:"1일 전"},{value:"1주일 전",label:"1주일 전"},{value:"1개월 전",label:"1개월 전"}
-];
 
 const fields:Field[]=[
 {
