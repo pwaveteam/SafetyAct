@@ -19,14 +19,26 @@ ArchiveBoxIcon,
 BookOpenIcon,
 UserGroupIcon,
 ShieldCheckIcon,
-ExclamationTriangleIcon
+ExclamationTriangleIcon,
+ListBulletIcon // 추가
 } from "@heroicons/react/24/outline"
 
 interface MenuItem{label:string;path:string;Icon?:React.ComponentType<React.SVGProps<SVGSVGElement>>}
 interface SidebarProps{companyName?:string;adminName?:string}
 
 const businessSubMenu:MenuItem[]=[{label:"기본사업장관리",path:"/business-management/basic"},{label:"경영방침",path:"/business-management/policy-goal"},{label:"예산/목표",path:"/business-management/budget"},{label:"조직도",path:"/business-management/organization"}]
-const safetySubMenu:MenuItem[]=[{label:"위험성평가",path:"/risk-assessment"},{label:"TBM",path:"/tbm",Icon:DocumentTextIcon},{label:"아차사고",path:"/nearmiss",Icon:ClipboardDocumentListIcon},{label:"안전교육",path:"/safety-education",Icon:BookOpenIcon},{label:"자산관리",path:"/asset-management",Icon:ArchiveBoxIcon},{label:"안전작업허가서",path:"/safety-work-permit",Icon:ClipboardDocumentCheckIcon},{label:"도급협의체관리",path:"/supply-chain-management",Icon:UserGroupIcon}]
+
+const safetySubMenu:MenuItem[]=[
+{label:"위험성평가",path:"/risk-assessment"},
+{label:"안전점검",path:"/inspection",Icon:ListBulletIcon}, // 추가
+{label:"TBM",path:"/tbm",Icon:DocumentTextIcon},
+{label:"아차사고",path:"/nearmiss",Icon:ClipboardDocumentListIcon},
+{label:"안전교육",path:"/safety-education",Icon:BookOpenIcon},
+{label:"자산관리",path:"/asset-management",Icon:ArchiveBoxIcon},
+{label:"안전작업허가서",path:"/safety-work-permit",Icon:ClipboardDocumentCheckIcon},
+{label:"도급협의체관리",path:"/supply-chain-management",Icon:UserGroupIcon}
+]
+
 const infoSubMenu:MenuItem[]=[{label:"대응매뉴얼",path:"/response-manual",Icon:ShieldCheckIcon},{label:"공지/게시판",path:"/notice-board",Icon:ExclamationTriangleIcon},{label:"결재함",path:"/approval-box",Icon:BellAlertIcon},{label:"QR관리",path:"/qr-management",Icon:QrCodeIcon}]
 const supportMenu:MenuItem[]=[{label:"마이페이지",path:"/mypage"},{label:"1:1 지원",path:"/support"},{label:"사용가이드",path:"https://www.notion.so/"}]
 

@@ -3,11 +3,12 @@ import Button from "@/components/common/base/Button";
 import FormScreen, {Field} from "@/components/common/forms/FormScreen";
 import ToggleSwitch from "@/components/common/base/ToggleSwitch";
 import MachineAutocomplete from "@/components/common/inputs/MachineAutocomplete";
+import Checkbox from "@/components/common/base/Checkbox" //추가
 
 type AlertWhen="1일 전"|"1주일 전"|"1개월 전";
 type Props={isOpen:boolean;onClose:()=>void;onSave:(data:FormDataState)=>void};
 type FormDataState={
-name:string;capacityValue:string;capacityUnit:string;quantity:string;location:string;inspectionCycle:string;inspectionDate:string;purpose:string;proof:File|null;notify:boolean;notifyWhen:AlertWhen
+name:string;capacityValue:string;capacityUnit:string;quantity:string;location:string;inspectionCycle:string;inspectionDate:string;purpose:string;proof:File|null;notify:boolean;notifyWhen:AlertWhen;repeat: boolean; //추가
 };
 
 type Option={value:string;label:string};
@@ -32,7 +33,7 @@ const alertTimingOptions:Option[]=[
 ];
 
 export default function AssetMachineRegister({isOpen,onClose,onSave}:Props):React.ReactElement|null{
-const [formData,setFormData]=useState<FormDataState>({name:"",capacityValue:"",capacityUnit:"bar",quantity:"",location:"",inspectionCycle:"상시",inspectionDate:"",purpose:"",proof:null,notify:false,notifyWhen:"1주일 전"});
+const [formData,setFormData]=useState<FormDataState>({name:"",capacityValue:"",capacityUnit:"bar",quantity:"",location:"",inspectionCycle:"상시",inspectionDate:"",purpose:"",proof:null,notify:false,notifyWhen:"1주일 전",repeat: false});
 const numericNames=useMemo(()=>new Set(["quantity","capacity_value"]),[]);
 
 const handleChange=useCallback((e:React.ChangeEvent<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>):void=>{
@@ -66,7 +67,37 @@ className="w-full"
 {label:"설치/작업장소",name:"location",type:"text",placeholder:"장소 입력"},
 {label:"점검일",name:"inspectionDate",type:"date",placeholder:"점검일 선택"},
 {label:"용도",name:"purpose",type:"text",placeholder:"용도 입력"},
-{label:"점검주기",name:"inspectionCycle",type:"select",options:inspectionCycleOptions,placeholder:"점검주기 선택"},
+{
+label: "점검주기",
+name: "inspectionCycle",
+type: "custom",
+customRender: (
+<div className="flex items-center gap-3 w-full">
+<select
+name="inspectionCycle"
+value={formData.inspectionCycle}
+onChange={(e) => {
+const v = e.target.value
+setFormData(p => ({
+...p,
+inspectionCycle: v,
+repeat: v === "상시" ? false : p.repeat
+}))
+}}
+className="h-[36px] border border-[#AAAAAA] rounded-[8px] px-3 bg-white text-sm text-[#333639]"
+>
+{inspectionCycleOptions.map(opt => (
+<option key={opt.value} value={opt.value}>{opt.label}</option>
+))}
+</select>
+<span className="text-sm text-[#333639]">반복여부</span>
+<Checkbox
+checked={formData.repeat}
+onChange={() => setFormData(p => ({ ...p, repeat: !p.repeat }))}
+/>
+</div>
+)
+},
 {label:"알림 전송여부",name:"notify",type:"custom",customRender:(<ToggleSwitch checked={formData.notify} onChange={(checked)=>setFormData(prev=>({...prev,notify:checked}))}/>)},
 {label:"알림 발송시점",name:"notifyWhen",type:"select",options:alertTimingOptions,placeholder:"알림 발송시점 선택"},
 {label:"첨부파일",name:"fileUpload",type:"fileUpload"}

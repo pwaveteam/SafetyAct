@@ -4,6 +4,7 @@ import FormScreen, {Field} from "@/components/common/forms/FormScreen";
 import ToggleSwitch from "@/components/common/base/ToggleSwitch";
 import RadioGroup from "@/components/common/base/RadioGroup";
 import ChemicalAutocomplete from "@/components/common/inputs/ChemicalAutocomplete";
+import Checkbox from "@/components/common/base/Checkbox" //추가
 
 type AlertWhen="1일 전"|"1주일 전"|"1개월 전";
 type Props={isOpen:boolean;onClose:()=>void;onSave:(data:FormDataState)=>void};
@@ -14,7 +15,8 @@ dailyUsageValue:string;dailyUsageUnit:string;
 storageAmountValue:string;storageAmountUnit:string;
 corrosive:"예"|"아니오";toxicity:string;adverseReaction:string;
 registrationDate:string;inspectionCycle:string;
-msds:File|null;note:string;notify:boolean;notifyWhen:AlertWhen
+msds:File|null;note:string;notify:boolean;notifyWhen:AlertWhen;
+repeat: boolean; //추가
 };
 
 type Option={value:string;label:string};
@@ -50,7 +52,8 @@ dailyUsageValue:"",dailyUsageUnit:"",
 storageAmountValue:"",storageAmountUnit:"",
 corrosive:"예",toxicity:"",adverseReaction:"",
 registrationDate:"",inspectionCycle:"",
-msds:null,note:"",notify:false,notifyWhen:"1일 전"
+msds:null,note:"",notify:false,notifyWhen:"1일 전",
+repeat: false //추가
 });
 
 const handleChange=useCallback((e:React.ChangeEvent<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>):void=>{
@@ -85,7 +88,37 @@ className="w-full"
 {label:"독성치",name:"toxicity",type:"text",placeholder:"독성치 입력"},
 {label:"이상반응",name:"adverseReaction",type:"text",placeholder:"이상반응 입력"},
 {label:"등록일",name:"registrationDate",type:"date",placeholder:"등록일 선택"},
-{label:"점검주기",name:"inspectionCycle",type:"select",options:inspectionCycleOptions,placeholder:"점검주기 선택"},
+{
+label: "점검주기",
+name: "inspectionCycle",
+type: "custom",
+customRender: (
+<div className="flex items-center gap-3 w-full">
+<select
+name="inspectionCycle"
+value={formData.inspectionCycle}
+onChange={(e) => {
+const v = e.target.value
+setFormData(p => ({
+...p,
+inspectionCycle: v,
+repeat: v === "상시" ? false : p.repeat
+}))
+}}
+className="h-[36px] border border-[#AAAAAA] rounded-[8px] px-3 bg-white text-sm text-[#333639]"
+>
+{inspectionCycleOptions.map(opt => (
+<option key={opt.value} value={opt.value}>{opt.label}</option>
+))}
+</select>
+<span className="text-sm text-[#333639]">반복여부</span>
+<Checkbox
+checked={formData.repeat}
+onChange={()=>setFormData(p=>({...p, repeat: !p.repeat}))}
+/>
+</div>
+)
+},  
 {label:"알림 전송여부",name:"notify",type:"custom",customRender:(<ToggleSwitch checked={formData.notify} onChange={(checked)=>setFormData(prev=>({...prev,notify:checked}))}/>)},
 {label:"알림 발송시점",name:"notifyWhen",type:"select",options:alertTimingOptions,placeholder:"알림 발송시점 선택"},
 {label:"첨부파일 (MSDS)",name:"msds",type:"fileUpload"}
