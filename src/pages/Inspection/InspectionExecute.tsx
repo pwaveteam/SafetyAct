@@ -1,34 +1,20 @@
 import React,{useMemo,useState,useCallback}from"react"
 import{useNavigate,useParams}from"react-router-dom"
-import PageTitle from "@/components/common/base/PageTitle"
-import Button from "@/components/common/base/Button"
+import PageTitle from"@/components/common/base/PageTitle"
+import Button from"@/components/common/base/Button"
 import DataTable,{Column,DataRow}from"@/components/common/tables/DataTable"
-import EditableCell from "@/components/common/inputs/EditableCell"
-import Checkbox from "@/components/common/base/Checkbox"
+import EditableCell from"@/components/common/inputs/EditableCell"
+import Checkbox from"@/components/common/base/Checkbox"
 
 type ExecItemRow=DataRow&{id:number;content:string;confirmed:boolean;note:string}
-type PlanHeader={id:number;planName:string;site:string;area:string;kind:string;startDate:string;endDate:string;weekDays:string[];monthDays:number[];inspector:string;registrant:string}
+type PlanHeader={id:number;planName:string;site:string;area:string;kind:string;startDate:string;endDate:string;weekDays:string[];monthDays:number[];inspector:string;inspectorPhone:string;registrant:string}
 
 const INPUT_CLASS="h-[36px] border border-[#AAAAAA] rounded-[8px] px-3 bg-gray-50 text-sm text-[#333639] flex items-center"
 const LABEL_CLASS="text-sm font-medium text-[#333639] whitespace-nowrap"
 
 const InspectionExecute:React.FC=()=>{
-const{planId}=useParams()
-const navigate=useNavigate()
-
-const header:PlanHeader=useMemo(()=>({
-id:Number(planId??3),
-planName:"전기설비 정기점검(9월)",
-site:"본사 A동",
-area:"시설물",
-kind:"특별점검",
-startDate:"2025-09-01",
-endDate:"2025-09-30",
-weekDays:["월","수","금"],
-monthDays:[5,20],
-inspector:"김안전",
-registrant:"박관리"
-}),[planId])
+const{planId}=useParams();const navigate=useNavigate()
+const header:PlanHeader=useMemo(()=>({id:Number(planId??3),planName:"전기설비 정기점검(9월)",site:"본사 A동",area:"시설물",kind:"특별점검",startDate:"2025-09-01",endDate:"2025-09-30",weekDays:["월","수","금"],monthDays:[],inspector:"김안전",inspectorPhone:"010-1234-1234",registrant:"박관리"}),[planId])
 
 const[rows,setRows]=useState<ExecItemRow[]>([
 {id:1,content:"분전반 외함 파손·열화·부식 여부 및 표면 이물질 부착 상태 확인",confirmed:false,note:""},
@@ -52,16 +38,13 @@ const columns:Column[]=[
 ]
 
 const tableData:DataRow[]=useMemo(()=>rows.map((r,i)=>({...r,__no:i+1})),[rows])
+const handleSubmit=()=>{if(!allDone&&!window.confirm("모든 항목의 점검결과가 확인되지 않았습니다. 저장하시겠습니까?"))return;alert("저장되었습니다.");console.log("saved",{header,rows});navigate("/inspection/plan")}
 
-const handleSubmit=()=>{if(!allDone&& !window.confirm("모든 항목의 점검결과가 확인되지 않았습니다. 저장하시겠습니까?"))return;alert("저장되었습니다.");console.log("saved",{header,rows});navigate("/inspection/plan")}
-
-const weekdayText=header.weekDays.length?header.weekDays.join(", "):"미지정"
+const weekdayText=header.weekDays.length?header.weekDays.join(", "):"-"
 const monthdayText=header.monthDays.length?`매월 ${header.monthDays.join(", ")}일`:"-"
 
-return(
-<section className="w-full bg-white">
+return(<section className="w-full bg-white">
 <PageTitle>점검하기</PageTitle>
-
 <div className="w-full px-3 py-3 mb-4 bg-[#F8F8F8] border border-[#E5E5E5] rounded-[10px]">
 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
 <div className="flex items-center gap-3 min-w-0"><span className={LABEL_CLASS}>장소</span><div className={`${INPUT_CLASS} w-full`}>{header.site}</div></div>
@@ -71,35 +54,23 @@ return(
 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
 <div className="flex items-center gap-3 min-w-0"><span className={LABEL_CLASS}>점검일정</span><div className={`${INPUT_CLASS} w-full`}>{header.startDate} ~ {header.endDate}</div></div>
 <div className="flex items-center gap-3 min-w-0"><span className={LABEL_CLASS}>점검표명</span><div className={`${INPUT_CLASS} w-full`}>{header.planName}</div></div>
-<div className="flex items-center gap-3 min-w-0"><span className={LABEL_CLASS}>점검자</span><div className={`${INPUT_CLASS} w-full`}>{header.inspector}</div></div>
+<div className="flex items-center gap-3 min-w-0"><span className={LABEL_CLASS}>점검자</span><div className={`${INPUT_CLASS} w-full`}>{header.inspector}</div><div className={`${INPUT_CLASS} w-full`}>{header.inspectorPhone}</div></div>
 </div>
 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-<div className="flex items-center gap-3 min-w-0"><span className={LABEL_CLASS}>점검요일</span><div className={`${INPUT_CLASS} w-full`}>{weekdayText}</div></div>
-<div className="flex items-center gap-3 min-w-0"><span className={LABEL_CLASS}>월간 점검일자</span><div className={`${INPUT_CLASS} w-full`}>{monthdayText}</div></div>
+<div className="flex items-center gap-3 min-w-0"><span className={LABEL_CLASS}>주간 점검요일</span><div className={`${INPUT_CLASS} w-full`}>{weekdayText}</div></div>
+<div className="flex items-center gap-3 min-w-0"><span className={LABEL_CLASS}>월별 점검일자</span><div className={`${INPUT_CLASS} w-full`}>{monthdayText}</div></div>
 <div className="flex items-center gap-3 min-w-0"><span className={LABEL_CLASS}>등록인</span><div className={`${INPUT_CLASS} w-full`}>{header.registrant}</div></div>
 </div>
 </div>
 
 <div className="mb-2 text-sm font-medium text-[#333639]">점검항목</div>
-
 <div className="overflow-x-auto bg-white">
-<style>{`
-.hide-select-col table thead tr th:first-child,
-.hide-select-col table tbody tr td:first-child{display:none !important;}
-.no-row-hover table tbody tr:hover td,
-.no-row-hover table tbody tr:hover{background:transparent !important;}
-`}</style>
-<div className="hide-select-col no-row-hover">
-<DataTable columns={columns} data={tableData}/>
-</div>
+<style>{`.hide-select-col table thead tr th:first-child,.hide-select-col table tbody tr td:first-child{display:none!important}.no-row-hover table tbody tr:hover td,.no-row-hover table tbody tr:hover{background:transparent!important}`}</style>
+<div className="hide-select-col no-row-hover"><DataTable columns={columns} data={tableData}/></div>
 {rows.length===0&&(<div className="py-16 text-center text-sm text-gray-500">등록된 항목이 없습니다.</div>)}
 </div>
 
-<div className="absolute right-4 bottom-4 md:static md:mt-8 flex justify-end">
-<Button variant="primary" onClick={handleSubmit}>저장하기</Button>
-</div>
-</section>
-)
-}
+<div className="absolute right-4 bottom-4 md:static md:mt-8 flex justify-end"><Button variant="primary" onClick={handleSubmit}>저장하기</Button></div>
+</section>)}
 
 export default InspectionExecute

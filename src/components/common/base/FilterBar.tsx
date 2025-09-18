@@ -30,7 +30,13 @@ const targetOptions=[{value:"",label:"-전체-"},{value:"근로자 교육",label
 const methodOptionsEdu=[{value:"",label:"-전체-"},{value:"자체교육",label:"자체교육"},{value:"온라인·집체교육",label:"온라인·집체교육"}]
 
 export const inspectionFieldOptions=[{value:"",label:"-전체-"},{value:"시설물",label:"시설물"},{value:"자산(설비)",label:"자산(설비)"},{value:"자율점검",label:"자율점검"}]
-export const inspectionKindOptions=[{value:"",label:"-전체-"},{value:"특별점검",label:"특별점검"},{value:"정기점검",label:"정기점검"},{value:"수시점검",label:"수시점검"},{value:"임시점검",label:"임시점검"}]
+export const inspectionKindOptions=[
+{value:"",label:"-전체-"},
+{value:"정기점검",label:"정기점검"},
+{value:"수시점검",label:"수시점검"},
+{value:"특별점검",label:"특별점검"},
+{value:"일일점검",label:"일일점검"}
+]
 
 const renderSelect=(label:string,value:string,onChange:(v:string)=>void,options:{value:string;label:string}[])=>(
 <div className="relative flex items-center gap-x-3 min-w-[160px]">
