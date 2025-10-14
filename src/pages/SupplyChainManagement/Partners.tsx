@@ -24,7 +24,7 @@ const columns: Column[] = [
 { key: "manager", label: "현장관리자", minWidth: 120 },
 { key: "contact", label: "연락처", minWidth: 140 },
 { key: "planFile", label: "안전보건계획서", minWidth: 132 },
-{ key: "etcFile", label: "기타서류", minWidth: 110 },
+{ key: "etcFile", label: "계약서류", minWidth: 110 },
 { key: "manage", label: "관리", minWidth: 110, renderCell: row => (<button style={{ background: "none", border: "none", padding: 0, color: "#999999", cursor: "pointer", width: 110, textAlign: "center" }} onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")} onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}>자세히보기/편집</button>) }
 ]
 

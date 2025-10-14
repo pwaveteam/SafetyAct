@@ -23,6 +23,7 @@ type?:
 | "timeRange"
 | "textarea"
 | "fileUpload"
+| "multiFileUpload"
 | "tags"
 | "quantityUnit"
 | "quantity"

@@ -6,11 +6,7 @@ import ProcessRiskAccordion, { RiskItem } from "@/components/modules/ProcessRisk
 import LoadListDialog from "@/components/modules/LoadListDialog"
 import AttendeePanel from "@/components/modules/AttendeePanel"
 
-interface Attendee {
-name: string
-phone: string
-signature?: string
-}
+interface Attendee { name: string; phone: string; signature?: string }
 
 const riskEvaluationTemplates = ["건설기계_2025-03-30","물리적인자_2025-03-30","터널 공사_2025-03-30","기타_2025-03-30","크레인 작업_2025-03-30"]
 
@@ -35,6 +31,7 @@ const [processDetails, setProcessDetails] = useState<Record<string, RiskItem[]>>
 const [expandedProcesses, setExpandedProcesses] = useState<Record<string, boolean>>({})
 const [checkedItems, setCheckedItems] = useState<Record<string, boolean[]>>({})
 const [attendeesList, setAttendeesList] = useState<Attendee[]>([])
+const [sitePhotos, setSitePhotos] = useState("")
 
 const toggleExpand = (proc: string) => setExpandedProcesses(prev => ({ ...prev, [proc]: !prev[proc] }))
 
@@ -50,8 +47,8 @@ else if (name === "endMinute") setEndMinute(value)
 else if (name === "assignee") setAssignee(value)
 else if (name === "content") setContent(value)
 else if (name === "remark") setRemark(value)
-else if (name === "fileUpload" && (e.target as HTMLInputElement).files?.[0])
-setFileName((e.target as HTMLInputElement).files![0].name)
+else if (name === "sitePhotos") setSitePhotos(value)
+else if (name === "fileUpload" && (e.target as HTMLInputElement).files?.[0]) setFileName((e.target as HTMLInputElement).files![0].name)
 }
 
 const toggleProcessInList = (proc: string) => {
@@ -97,8 +94,8 @@ return { ...prev, [proc]: items }
 
 const fields: Field[] = [
 { label: "TBM 장소", name: "location", type: "text", placeholder: "장소 입력" },
-{ label: "TBM 일시", name: "date", type: "date" },
-{ label: "교육시간", name: "timeRange", type: "timeRange" },
+{ label: "TBM 일자", name: "date", type: "date" },
+{ label: "진행시간", name: "timeRange", type: "timeRange" },
 { label: "작업명", name: "tbmName", type: "text", placeholder: "작업명 입력" },
 {
 label: "위험성평가표",
@@ -113,24 +110,27 @@ isOpen={processListOpen}
 items={riskEvaluationTemplates.map(p => ({ id: p, name: p }))}
 selectedId={process}
 singleSelect
-onChangeSelected={toggleProcessInList}
+onChangeSelected={selected => {
+if (selected == null) return
+if (Array.isArray(selected)) { const v = selected[0]; if (v != null) toggleProcessInList(String(v)) }
+else toggleProcessInList(String(selected))
+}}
 onClose={() => setProcessListOpen(false)}
 />
 )}
 </>
 ),
 },
-{ label: "작업내용", name: "content", type: "textarea", className: "text-xs md:text-sm" },
-{ label: "비고", name: "remark", type: "textarea", className: "text-xs md:text-sm" },
-{ label: "첨부파일", name: "fileUpload", type: "fileUpload" },
+{ label: "작업내용", name: "content", type: "textarea", className: "text-xs md:text-sm", required: false },
+{ label: "비고", name: "remark", type: "textarea", className: "text-xs md:text-sm", required: false },
+{ label: "현장사진", name: "sitePhotos", type: "multiFileUpload", required: false },
+{ label: "첨부파일", name: "fileUpload", type: "fileUpload", required: false },
 ]
 
-const values = {
-tbmName, location, date, startHour, startMinute, endHour, endMinute, assignee, content, remark, fileUpload: fileName, processes: process
-}
+const values = { tbmName, location, date, startHour, startMinute, endHour, endMinute, assignee, content, remark, fileUpload: fileName, processes: process, sitePhotos }
 
 const handleSubmit = () => {
-console.log({ tbmName, location, date, startHour, startMinute, endHour, endMinute, assignee, content, remark, processes: process, attendeesList, processDetails, checkedItems })
+console.log({ tbmName, location, date, startHour, startMinute, endHour, endMinute, assignee, content, remark, processes: process, attendeesList, processDetails, checkedItems, sitePhotos })
 }
 
 const handleAddAttendee = (att: Attendee) => setAttendeesList(prev => [...prev, att])
@@ -141,19 +141,7 @@ return (
 <PageTitle>TBM 등록</PageTitle>
 <div className="flex flex-col md:flex-row gap-4 items-start">
 <div className="w-full md:w-[60%] border border-[#F3F3F3] rounded-[16px] p-3" style={{ minHeight: "700px" }}>
-<FormScreen
-fields={fields}
-values={values}
-onChange={handleChange}
-onTagRemove={(n, t) => {
-if (n === "processes" && t === process) {
-setProcess("")
-setProcessDetails({})
-setCheckedItems({})
-}
-}}
-onSubmit={handleSubmit}
-/>
+<FormScreen fields={fields} values={values} onChange={handleChange} onTagRemove={(n, t) => { if (n === "processes" && t === process) { setProcess(""); setProcessDetails({}); setCheckedItems({}) } }} onSubmit={handleSubmit} onClose={() => {}} onSave={() => {}} />
 {process && (
 <ProcessRiskAccordion
 key={process}

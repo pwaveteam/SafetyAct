@@ -16,7 +16,7 @@ React.useEffect(() => { onCheckedChange?.(checked) }, [checked, onCheckedChange]
 
 return (
 <div className="overflow-x-auto">
-<table className="w-full border-collapse min-w-[600px] md:min-w-auto">
+<table className="w-full border-collapse md:min-w-auto">
 <thead>
 <tr className="h-[33px] md:h-[45px]" style={{ background: "#F7F8FA", borderTop: "1.9px solid #161616", borderBottom: "1px solid #CCCCCC" }}>
 <th className="px-3 py-0 align-middle text-xs sm:text-xs md:text-base text-center" style={{ minWidth: 60, maxWidth: 100, width: 60, borderRight: "1px solid #CCCCCC", background: "#EFEFF3", ...headerFontStyle }}>

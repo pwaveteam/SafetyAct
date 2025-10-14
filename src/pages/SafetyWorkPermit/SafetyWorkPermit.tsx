@@ -11,12 +11,12 @@ import TabMenu from "@/components/common/base/TabMenu"
 const columns: Column[] = [
 { key: "id", label: "번호", minWidth: 48 },
 { key: "workType", label: "작업유형", minWidth: 130 },
-{ key: "workerCount", label: "작업 인원", minWidth: 90 },
+{ key: "workerCount", label: "작업인원", minWidth: 90 },
 { key: "hazardLevel", label: "위험 수준", minWidth: 90 },
 { key: "workPeriod", label: "작업기간", minWidth: 200 },
 { key: "registrationDate", label: "등록일", minWidth: 110 },
 { key: "approvalStatus", label: "승인상태", minWidth: 100 },
-{ key: "attachment", label: "첨부", minWidth: 60 },
+{ key: "attachment", label: "첨부파일", minWidth: 60 },
 { key: "manage", label: "관리", minWidth: 110, renderCell: (row) => (<button style={{ background: "none", border: "none", padding: 0, color: "#999999", cursor: "pointer", width: 110, textAlign: "center" }} onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")} onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}>자세히보기/편집</button>) },
 ]
 
