@@ -6,7 +6,8 @@ import DataTable, { Column, DataRow } from "@/components/common/tables/DataTable
 import TabMenu from "@/components/common/base/TabMenu"
 import PageTitle from "@/components/common/base/PageTitle"
 import CommitteeRegister from "./CommitteeRegister"
-import { DownloadIcon, Download, CirclePlus, Printer, Trash2, ShieldAlert, Save } from "lucide-react"
+import { DownloadIcon, Download, CirclePlus, Printer, Trash2, ShieldAlert, Save, Image } from "lucide-react"
+import SitePhotoViewer from "@/components/modules/SitePhotoViewer"
 
 const TAB_LABELS = ["수급업체 관리", "안전보건수준 평가", "도급안전보건 협의체", "안전보건 점검", "안전보건 교육/훈련"]
 const TAB_PATHS = [
@@ -21,12 +22,13 @@ const columns: Column[] = [
 { key: "id", label: "번호", minWidth: 50 },
 { key: "completionDate", label: "회의일시", minWidth: 110 },
 { key: "meetingPlace", label: "회의장소", minWidth: 110 },
+{ key: "sitePhotos", label: "현장사진", minWidth: 80, renderCell: (row: DataRow) => (row.sitePhotos && row.sitePhotos.length > 0 ? (<button type="button" className="flex items-center justify-center w-full text-gray-700 hover:text-gray-900" onClick={() => row.onOpenPhotos?.(row.sitePhotos ?? [])} aria-label="현장사진 보기"><Image size={19} strokeWidth={2} /></button>) : (<span className="flex items-center justify-center text-gray-400">-</span>)) },
 { key: "proof", label: "회의록", minWidth: 40, renderCell: row => (<span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="첨부파일 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>) },
 { key: "manage", label: "관리", minWidth: 110, renderCell: row => (<button style={{ background: "none", border: "none", padding: 0, color: "#999999", cursor: "pointer", width: 110, textAlign: "center" }} onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")} onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}>자세히보기/편집</button>) }
 ]
 
 const initialData: DataRow[] = [
-{ id: 3, completionDate: "2025-06-10 13:00 ~ 15:00", meetingPlace: "본사 대회의실", proof: (<span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="첨부파일 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>), note: "기초 이론 교육 포함" }
+{ id: 3, completionDate: "2025-06-10 13:00 ~ 15:00", meetingPlace: "본사 대회의실", sitePhotos: ["/images/photo11.jpg"], proof: (<span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="첨부파일 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>), note: "기초 이론 교육 포함" }
 ]
 
 const downloadDocx = () => alert("회의록 양식 다운로드")
@@ -39,7 +41,9 @@ const currentTabIdx = Math.max(TAB_PATHS.indexOf(location.pathname), 0)
 const [startDate, setStartDate] = useState("2025-06-16")
 const [endDate, setEndDate] = useState("2025-12-16")
 const [searchText, setSearchText] = useState("")
-const [data, setData] = useState<DataRow[]>(initialData)
+const [photoPreview, setPhotoPreview] = useState<{open:boolean; images:string[]; index:number}>({ open:false, images:[], index:0 })
+const enrich = (r: DataRow): DataRow => ({ ...r, onOpenPhotos: (images: string[]) => setPhotoPreview({ open:true, images, index:0 }) })
+const [data, setData] = useState<DataRow[]>(initialData.map(enrich))
 const [checkedIds, setCheckedIds] = useState<(number|string)[]>([])
 const [modalOpen, setModalOpen] = useState(false)
 
@@ -55,11 +59,14 @@ setCheckedIds([])
 }
 const handleSave = (newItem: any) => {
 const newId = (Math.max(...data.map(d => Number(d.id))) + 1).toString()
-setData([{ id: newId, ...newItem }, ...data])
+setData([{ id: newId, ...newItem, onOpenPhotos: (images: string[]) => setPhotoPreview({ open:true, images, index:0 }) }, ...data])
 setModalOpen(false)
 }
 
 const hasOrganization = false
+const closePreview = () => setPhotoPreview(p => ({ ...p, open:false }))
+const prevImg = () => setPhotoPreview(p => ({ ...p, index: p.index > 0 ? p.index - 1 : p.index }))
+const nextImg = () => setPhotoPreview(p => ({ ...p, index: p.index < p.images.length - 1 ? p.index + 1 : p.index }))
 
 return (
 <section className="w-full bg-white">
@@ -111,6 +118,7 @@ className="flex items-center gap-1"
 <div className="flex justify-center mb-6">{/* 조직도 이미지 자리 */}</div>
 )}
 {modalOpen && (<CommitteeRegister isOpen={modalOpen} onClose={() => setModalOpen(false)} onSave={handleSave} />)}
+<SitePhotoViewer open={photoPreview.open} images={photoPreview.images} index={photoPreview.index} onClose={closePreview} onPrev={prevImg} onNext={nextImg} />
 </section>
 )
 }

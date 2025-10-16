@@ -6,8 +6,8 @@ import DataTable, { Column, DataRow } from "@/components/common/tables/DataTable
 import TabMenu from "@/components/common/base/TabMenu"
 import PageTitle from "@/components/common/base/PageTitle"
 import SiteAuditRegister from "@/pages/SupplyChainManagement/SiteAuditRegister"
-import Badge from "@/components/common/base/Badge"
-import { Download, CirclePlus, Printer, Trash2, Save } from "lucide-react"
+import { Download, CirclePlus, Printer, Trash2, Save, Image } from "lucide-react"
+import SitePhotoViewer from "@/components/modules/SitePhotoViewer"
 
 const TAB_LABELS = ["수급업체 관리", "안전보건수준 평가", "도급안전보건 협의체", "안전보건 점검", "안전보건 교육/훈련"]
 const TAB_PATHS = [
@@ -23,18 +23,18 @@ const columns: Column[] = [
 { key: "inspectionDate", label: "점검일", minWidth: 110 },
 { key: "inspectionType", label: "점검종류", minWidth: 120 },
 { key: "inspectionName", label: "점검명(계획명)", minWidth: 200 },
-{ key: "inspectionPlace", label: "점검지", minWidth: 150 },
-{ key: "inspectionResult", label: "점검결과", minWidth: 120 },
+{ key: "inspectionResult", label: "점검결과", minWidth: 140 },
 { key: "note", label: "비고", minWidth: 200 },
 { key: "inspector", label: "점검자", minWidth: 80 },
-{ key: "fileAttach", label: "첨부파일", minWidth: 90 },
+{ key: "sitePhotos", label: "현장사진", minWidth: 80, renderCell: (row: DataRow) => (row.sitePhotos && row.sitePhotos.length > 0 ? (<button type="button" className="flex items-center justify-center w-full text-gray-700 hover:text-gray-900" onClick={() => row.onOpenPhotos?.(row.sitePhotos ?? [])} aria-label="현장사진 보기"><Image size={19} strokeWidth={2} /></button>) : (<span className="flex items-center justify-center text-gray-400">-</span>)) },
+{ key: "fileAttach", label: "점검지", minWidth: 90, renderCell: () => (<button type="button" className="flex items-center justify-center w-full text-gray-700 hover:text-gray-900" aria-label="점검지 다운로드"><Download size={19} strokeWidth={2} /></button>) },
 { key: "manage", label: "관리", minWidth: 110, renderCell: row => (<button style={{ background: "none", border: "none", padding: 0, color: "#999999", cursor: "pointer", width: 110, textAlign: "center" }} onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")} onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}>자세히보기/편집</button>) }
 ]
 
 const initialData: DataRow[] = [
-{ id: 3, inspectionDate: "2025-01-10", inspectionType: "합동점검", inspectionName: "비상구 개폐 상태 확인", inspectionPlace: "본관 1층", inspectionResult: <Badge color="sky">이상없음</Badge>, note: "", inspector: "박점검", fileAttach: (<span className="flex justify-center items-center"><Download size={19} aria-label="첨부파일 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>) },
-{ id: 2, inspectionDate: "2025-02-01", inspectionType: "일반점검", inspectionName: "이동식 사다리 고정 상태 점검", inspectionPlace: "창고동 2층", inspectionResult: <Badge color="red">주의</Badge>, note: "나사 조임/고정 브래킷 교체 완료", inspector: "이점검", fileAttach: (<span className="flex justify-center items-center"><Download size={19} aria-label="첨부파일 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>) },
-{ id: 1, inspectionDate: "2025-03-15", inspectionType: "특별점검", inspectionName: "화학물질 보관 용기 누수 여부 확인", inspectionPlace: "화학물질 보관소", inspectionResult: <Badge color="red">주의</Badge>, note: "누수 용기 즉시 교체/바닥 세척 및 방수 처리", inspector: "최안전", fileAttach: (<span className="flex justify-center items-center"><Download size={19} aria-label="첨부파일 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>) }
+{ id: 3, inspectionDate: "2025-01-10", inspectionType: "합동점검", inspectionName: "비상구 개폐 상태 확인", inspectionResult: "이상없음", note: "-", inspector: "박점검", sitePhotos: ["/images/photo11.jpg"] },
+{ id: 2, inspectionDate: "2025-02-01", inspectionType: "일반점검", inspectionName: "이동식 사다리 고정 상태 점검", inspectionResult: "시정조치 완료", note: "나사 조임/고정 브래킷 교체 완료", inspector: "이점검", sitePhotos: [] },
+{ id: 1, inspectionDate: "2025-03-15", inspectionType: "특별점검", inspectionName: "화학물질 보관 용기 누수 여부 확인", inspectionResult: "중대 위험요인", note: "누수 용기 즉시 교체/바닥 세척 및 방수 처리", inspector: "최안전", sitePhotos: [] }
 ]
 
 export default function SiteManagement() {
@@ -45,7 +45,9 @@ const currentTabIdx = Math.max(TAB_PATHS.indexOf(location.pathname), 0)
 const [startDate, setStartDate] = useState("2025-06-16")
 const [endDate, setEndDate] = useState("2025-12-16")
 const [searchText, setSearchText] = useState("")
-const [data, setData] = useState<DataRow[]>(initialData)
+const [photoPreview, setPhotoPreview] = useState<{open:boolean; images:string[]; index:number}>({ open:false, images:[], index:0 })
+const enrich = (r: DataRow): DataRow => ({ ...r, onOpenPhotos: (images: string[]) => setPhotoPreview({ open:true, images, index:0 }) })
+const [data, setData] = useState<DataRow[]>(initialData.map(enrich))
 const [checkedIds, setCheckedIds] = useState<(number|string)[]>([])
 const [modalOpen, setModalOpen] = useState(false)
 
@@ -63,12 +65,7 @@ const downloadDocx = () => alert("점검지 양식 다운로드")
 
 const handleSave = (newItem: any) => {
 const newId = (Math.max(...data.map(d => Number(d.id))) + 1).toString()
-const resultText = newItem.inspectionResult || ""
-let resultTag = <Badge>{resultText}</Badge>
-if (resultText === "이상없음") resultTag = <Badge color="sky">이상없음</Badge>
-else if (resultText === "주의") resultTag = <Badge color="red">주의</Badge>
-else if (resultText === "위험") resultTag = <Badge color="red">위험</Badge>
-setData([{ id: newId, ...newItem, inspectionResult: resultTag }, ...data])
+setData([{ id: newId, ...newItem, onOpenPhotos: (images: string[]) => setPhotoPreview({ open:true, images, index:0 }) }, ...data])
 setModalOpen(false)
 }
 
@@ -85,11 +82,7 @@ return (
 <Button variant="action" onClick={() => setModalOpen(true)} className="flex items-center gap-1">
 <CirclePlus size={16} />신규등록
 </Button>
-<Button
-variant="action"
-onClick={downloadDocx}
-className="flex items-center gap-1"
->
+<Button variant="action" onClick={downloadDocx} className="flex items-center gap-1">
 <Download size={16} />점검지 양식
 </Button>
 <Button variant="action" onClick={handlePrint} className="flex items-center gap-1">
@@ -107,6 +100,7 @@ className="flex items-center gap-1"
 <DataTable columns={columns} data={data} onCheckedChange={setCheckedIds} />
 </div>
 {modalOpen && (<SiteAuditRegister isOpen={modalOpen} onClose={() => setModalOpen(false)} onSave={handleSave} />)}
+<SitePhotoViewer open={photoPreview.open} images={photoPreview.images} index={photoPreview.index} onClose={() => setPhotoPreview(p => ({ ...p, open:false }))} onPrev={() => setPhotoPreview(p => ({ ...p, index: p.index > 0 ? p.index - 1 : p.index }))} onNext={() => setPhotoPreview(p => ({ ...p, index: p.index < p.images.length - 1 ? p.index + 1 : p.index }))} />
 </section>
 )
 }

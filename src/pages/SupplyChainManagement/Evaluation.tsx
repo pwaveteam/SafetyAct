@@ -22,18 +22,19 @@ const columns: Column[] = [
 { key: "company", label: "업체명", minWidth: 140 },
 { key: "evaluationName", label: "평가명", minWidth: 200 },
 { key: "evaluationType", label: "평가종류", minWidth: 120 },
-{ key: "evaluationFile", label: "평가지", minWidth: 120, renderCell: () => (<span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="평가지 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>) },
 { key: "contractPeriod", label: "평가기간", minWidth: 180 },
 { key: "evaluator", label: "평가자", minWidth: 120 },
 { key: "externalEvaluator", label: "외부 평가업체", minWidth: 140 },
+{ key: "evaluationFile", label: "평가지", minWidth: 120, renderCell: () => (<span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="평가지 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>) },
+{ key: "attachmentFile", label: "첨부파일", minWidth: 120, renderCell: () => (<span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="첨부파일 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>) },
 { key: "manage", label: "관리", minWidth: 110, renderCell: row => (<button style={{ background: "none", border: "none", padding: 0, color: "#999999", cursor: "pointer", width: 110, textAlign: "center" }} onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")} onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}>자세히보기/편집</button>) }
 ]
 
 const initialData: DataRow[] = [
-{ id: 3, company: "테스트 주식회사", evaluationName: "테스트 주식회사 안전보건수준 선정평가", evaluationType: "선정평가", evaluationFile: "", contractPeriod: "2025-01-01 ~ 2025-12-31", evaluator: "김민수", externalEvaluator: "국가기술안전원" },
-{ id: 2, company: "굴착기회사", evaluationName: "굴착기회사 안전보건수준 재평가", evaluationType: "재평가", evaluationFile: "", contractPeriod: "2024-07-01 ~ 2025-06-30", evaluator: "이현주", externalEvaluator: "한국산업안전협회" },
-{ id: 1, company: "ABC 협의체", evaluationName: "ABC 협의체 안전보건수준 신규평가", evaluationType: "신규평가", evaluationFile: "", contractPeriod: "2025-04-01 ~ 2026-03-31", evaluator: "박성호", externalEvaluator: "서울안전기술(주)" }
-]
+{ id: 3, company: "테스트 주식회사", evaluationName: "테스트 주식회사 안전보건수준 선정평가", evaluationType: "선정평가", evaluationFile: "", attachmentFile: "", contractPeriod: "2025-01-01 ~ 2025-12-31", evaluator: "김민수", externalEvaluator: "국가기술안전원" },
+{ id: 2, company: "굴착기회사", evaluationName: "굴착기회사 안전보건수준 재평가", evaluationType: "재평가", evaluationFile: "", attachmentFile: "", contractPeriod: "2024-07-01 ~ 2025-06-30", evaluator: "이현주", externalEvaluator: "한국산업안전협회" },
+{ id: 1, company: "ABC 협의체", evaluationName: "ABC 협의체 안전보건수준 신규평가", evaluationType: "신규평가", evaluationFile: "", attachmentFile: "", contractPeriod: "2025-04-01 ~ 2026-03-31", evaluator: "박성호", externalEvaluator: "서울안전기술(주)" }
+]    
 
 export default function Evaluation() {
 const navigate = useNavigate()

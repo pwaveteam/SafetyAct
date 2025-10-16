@@ -692,6 +692,48 @@ value: (e.target as HTMLInputElement).files?.[0]?.name || "",
 </label>
 )
 
+if (field.type === "multiFileUpload") {
+return (
+<div className="flex flex-col gap-2 w-full">
+<label className={`${FILE_WRAPPER} relative p-[3px] space-x-[6px]`}>
+<span className="h-[30px] flex items-center px-3 bg-[#EFEFEF] border border-[#999999] rounded-[3px] text-sm md:text-base text-[#333639] cursor-pointer">
+파일 선택
+</span>
+<span className="text-sm md:text-base text-[#999999] flex-1 truncate">
+{(values[field.name] && values[field.name].split(",").length > 0)
+? `${values[field.name].split(",").length}개 파일 선택됨`
+: "선택된 파일 없음"}
+</span>
+<input
+type="file"
+name={field.name}
+multiple
+accept="image/*"
+className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+onChange={e => {
+const files = Array.from((e.target as HTMLInputElement).files || [])
+const names = files.map(f => f.name).join(", ")
+onChange({
+target: { name: field.name, value: names },
+} as any)
+}}
+/>
+</label>
+{values[field.name] && values[field.name].split(",").length > 0 && (
+<ul className="border border-[#DDD] rounded-md p-2 max-h-[120px] overflow-auto text-sm text-[#333639]">
+{values[field.name]
+.split(",")
+.map((fname: string, idx: number) => (
+<li key={idx} className="truncate">
+• {fname.trim()}
+</li>
+))}
+</ul>
+)}
+</div>
+)
+}
+
 if (field.type === "quantity") {
 return (
 <div className="flex items-center gap-2 w-full">

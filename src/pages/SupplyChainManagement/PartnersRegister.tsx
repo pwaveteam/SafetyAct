@@ -46,7 +46,7 @@ const fields: Field[] = [
 { label: "계약기간", name: "contractPeriod", type: "daterange" },
 { label: "담당자 연락처", name: "contact", type: "phone", placeholder: "연락처 입력" },
 { label: "안전보건계획서", name: "planFile", type: "fileUpload" },
-{ label: "기타서류", name: "etcFile", type: "fileUpload" }
+{ label: "계약서류", name: "etcFile", type: "fileUpload" }
 ]
 
 if (!isOpen) return null

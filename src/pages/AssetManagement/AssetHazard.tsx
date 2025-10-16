@@ -18,8 +18,8 @@ const columns: Column[] = [
 { key: "exposureLimit", label: "노출기준", minWidth: "90px" },
 { key: "dailyUsage", label: "일일사용량", minWidth: "90px" },
 { key: "storageAmount", label: "저장량", minWidth: "90px" },
-{ key: "msds", label: "MSDS", minWidth: "60px" },
 { key: "registrationDate", label: "등록일", minWidth: "110px" },
+{ key: "msds", label: "MSDS", minWidth: "60px" },
 {
 key: "manage", label: "관리", minWidth: 110,
 renderCell: row => (
@@ -29,9 +29,9 @@ renderCell: row => (
 ]
 
 const initialData: DataRow[] = [
-{ id: 3, chemicalName: "메틸알코올", casNo: "67-56-1", exposureLimit: "200 ppm", dailyUsage: "25 L", storageAmount: "1 m³", msds: <span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="MSDS 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>, registrationDate: "2025/06/01", actions: <span className="flex justify-center items-center"><button>자세히보기/편집</button></span> },
-{ id: 2, chemicalName: "벤젠", casNo: "71-43-2", exposureLimit: "1 ppm", dailyUsage: "1.2 L", storageAmount: "0.7 t", msds: <span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="MSDS 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>, registrationDate: "2025/03/30", actions: <span className="flex justify-center items-center"><button>자세히보기/편집</button></span> },
-{ id: 1, chemicalName: "톨루엔", casNo: "108-88-3", exposureLimit: "50 ppm", dailyUsage: "10 kg", storageAmount: "700 L", msds: <span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="MSDS 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>, registrationDate: "2025/05/20", actions: <span className="flex justify-center items-center"><button>자세히보기/편집</button></span> }
+{ id: 3, chemicalName: "메틸알코올", casNo: "67-56-1", exposureLimit: "200 ppm", dailyUsage: "25 L", storageAmount: "1 m³", registrationDate: "2025/06/01", msds: <span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="MSDS 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>, actions: <span className="flex justify-center items-center"><button>자세히보기/편집</button></span> },
+{ id: 2, chemicalName: "벤젠", casNo: "71-43-2", exposureLimit: "1 ppm", dailyUsage: "1.2 L", storageAmount: "0.7 t", registrationDate: "2025/03/30", msds: <span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="MSDS 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>, actions: <span className="flex justify-center items-center"><button>자세히보기/편집</button></span> },
+{ id: 1, chemicalName: "톨루엔", casNo: "108-88-3", exposureLimit: "50 ppm", dailyUsage: "10 kg", storageAmount: "700 L", registrationDate: "2025/05/20", msds: <span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="MSDS 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>, actions: <span className="flex justify-center items-center"><button>자세히보기/편집</button></span> }
 ]
 
 const TAB_LABELS = ["위험기계/기구/설비", "유해/위험물질"]

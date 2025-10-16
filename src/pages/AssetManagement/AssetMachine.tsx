@@ -22,12 +22,30 @@ const machineColumns: Column[] = [
 { key: "inspectionDate", label: "점검일", minWidth: 110 },
 { key: "purpose", label: "용도", minWidth: 120 },
 { key: "inspectionCycle", label: "점검주기", minWidth: 90 },
-{ key: "manage", label: "관리", minWidth: 110, renderCell: () => (
-<button style={{ background: "none", border: "none", padding: 0, color: "#999999", cursor: "pointer", width: 110, textAlign: "center" }}
+{
+key: "attachments",
+label: "첨부파일",
+minWidth: 80,
+renderCell: (): React.ReactElement => (
+<span className="flex justify-center items-center cursor-pointer" role="button" tabIndex={0} aria-label="첨부파일 다운로드">
+<Download size={19} strokeWidth={2} />
+</span>
+)
+},
+{
+key: "manage",
+label: "관리",
+minWidth: 110,
+renderCell: (): React.ReactElement => (
+<button
+style={{ background: "none", border: "none", padding: 0, color: "#999999", cursor: "pointer", width: 110, textAlign: "center" }}
 onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")}
-onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}>
+onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}
+>
 자세히보기/편집
-</button>) }
+</button>
+)
+}
 ]
 
 const initialMachineData: DataRow[] = [
@@ -43,19 +61,41 @@ const hazardColumns: Column[] = [
 { key: "exposureLimit", label: "노출기준", minWidth: 90 },
 { key: "dailyUsage", label: "일일사용량", minWidth: 90 },
 { key: "storageAmount", label: "저장량", minWidth: 90 },
-{ key: "msds", label: "MSDS", minWidth: 60, renderCell: () => (
-<button title="다운로드" aria-label="MSDS 다운로드" style={{ background: "none", border: "none", padding: 0, color: "#999999", cursor: "pointer" }}
-onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")}
-onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}>
-⬇
-</button>) },
+{
+key: "msds",
+label: "MSDS",
+minWidth: 60,
+renderCell: (): React.ReactElement => (
+<span title="MSDS 다운로드" aria-label="MSDS 다운로드" className="flex justify-center items-center cursor-pointer" role="button" tabIndex={0}>
+<Download size={19} strokeWidth={2} />
+</span>
+)
+},
+{
+key: "attachments",
+label: "첨부파일",
+minWidth: 80,
+renderCell: (): React.ReactElement => (
+<span className="flex justify-center items-center cursor-pointer" role="button" tabIndex={0} aria-label="첨부파일 다운로드">
+<Download size={19} strokeWidth={2} />
+</span>
+)
+},
 { key: "registrationDate", label: "등록일", minWidth: 110 },
-{ key: "actions", label: "관리", minWidth: 130, renderCell: () => (
-<button style={{ background: "none", border: "none", padding: 0, color: "#999999", cursor: "pointer" }}
+{
+key: "actions",
+label: "관리",
+minWidth: 130,
+renderCell: (): React.ReactElement => (
+<button
+style={{ background: "none", border: "none", padding: 0, color: "#999999", cursor: "pointer" }}
 onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")}
-onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}>
+onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")}
+>
 자세히보기/편집
-</button>) }
+</button>
+)
+}
 ]
 
 const initialHazardData: DataRow[] = [
@@ -69,7 +109,7 @@ const navigate = useNavigate()
 const location = useLocation()
 const [machineData, setMachineData] = useState<DataRow[]>(initialMachineData)
 const [hazardData, setHazardData] = useState<DataRow[]>(initialHazardData)
-const [checkedIds, setCheckedIds] = useState<(number|string)[]>([])
+const [checkedIds, setCheckedIds] = useState<(number | string)[]>([])
 const [isModalOpen, setIsModalOpen] = useState(false)
 const [startDate, setStartDate] = useState("2025-06-16")
 const [endDate, setEndDate] = useState("2025-12-16")
@@ -134,59 +174,34 @@ return (
 <div className="flex flex-col-reverse sm:flex-row justify-between items-start sm:items-center mb-3 gap-2">
 <span className="text-gray-600 text-sm leading-none pt-[3px] mt-2 sm:mt-0">총 {data.length}건</span>
 
-{/* Mobile */}
 <div className="flex flex-col gap-1 w-full justify-end sm:hidden">
 <div className="flex gap-1 justify-end">
 {currentTabIdx === 0 && (
 <>
-<Button variant="action" onClick={() => setIsModalOpen(true)} className="flex items-center gap-1">
-<CirclePlus size={16} />신규등록
-</Button>
-<Button variant="action" onClick={handleSafetyApplication} className="flex items-center gap-1">
-<Download size={16} />안전검사신청서 양식
-</Button>
-<Button variant="action" onClick={handleGenerateQR} className="flex items-center gap-1">
-<QrCode size={16} />QR 생성
-</Button>
+<Button variant="action" onClick={() => setIsModalOpen(true)} className="flex items-center gap-1"><CirclePlus size={16} />신규등록</Button>
+<Button variant="action" onClick={handleSafetyApplication} className="flex items-center gap-1"><Download size={16} />안전검사신청서 양식</Button>
+<Button variant="action" onClick={handleGenerateQR} className="flex items-center gap-1"><QrCode size={16} />QR 생성</Button>
 </>
 )}
 </div>
 <div className="flex gap-1 justify-end">
-<Button variant="action" onClick={handlePrint} className="flex items-center gap-1">
-<Save size={16} />다운로드
-</Button>
-<Button variant="action" onClick={handlePrint} className="flex items-center gap-1">
-<Printer size={16} />인쇄
-</Button>
-<Button variant="action" onClick={handleDelete} className="flex items-center gap-1">
-<Trash2 size={16} />삭제
-</Button>
+<Button variant="action" onClick={handlePrint} className="flex items-center gap-1"><Save size={16} />다운로드</Button>
+<Button variant="action" onClick={handlePrint} className="flex items-center gap-1"><Printer size={16} />인쇄</Button>
+<Button variant="action" onClick={handleDelete} className="flex items-center gap-1"><Trash2 size={16} />삭제</Button>
 </div>
 </div>
 
 <div className="hidden sm:flex flex-nowrap gap-1 w-auto justify-end">
 {currentTabIdx === 0 && (
 <>
-<Button variant="action" onClick={() => setIsModalOpen(true)} className="flex items-center gap-1">
-<CirclePlus size={16} />신규등록
-</Button>
-<Button variant="action" onClick={handleSafetyApplication} className="flex items-center gap-1">
-<Download size={16} />안전검사신청서 양식
-</Button>
-<Button variant="action" onClick={handleGenerateQR} className="flex items-center gap-1">
-<QrCode size={16} />QR 생성
-</Button>
+<Button variant="action" onClick={() => setIsModalOpen(true)} className="flex items-center gap-1"><CirclePlus size={16} />신규등록</Button>
+<Button variant="action" onClick={handleSafetyApplication} className="flex items-center gap-1"><Download size={16} />안전검사신청서 양식</Button>
+<Button variant="action" onClick={handleGenerateQR} className="flex items-center gap-1"><QrCode size={16} />QR 생성</Button>
 </>
 )}
-<Button variant="action" onClick={handlePrint} className="flex items-center gap-1">
-<Save size={16} />다운로드
-</Button>
-<Button variant="action" onClick={handlePrint} className="flex items-center gap-1">
-<Printer size={16} />인쇄
-</Button>
-<Button variant="action" onClick={handleDelete} className="flex items-center gap-1">
-<Trash2 size={16} />삭제
-</Button>
+<Button variant="action" onClick={handlePrint} className="flex items-center gap-1"><Save size={16} />다운로드</Button>
+<Button variant="action" onClick={handlePrint} className="flex items-center gap-1"><Printer size={16} />인쇄</Button>
+<Button variant="action" onClick={handleDelete} className="flex items-center gap-1"><Trash2 size={16} />삭제</Button>
 </div>
 </div>
 

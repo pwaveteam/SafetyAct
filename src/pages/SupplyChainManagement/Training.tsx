@@ -7,7 +7,7 @@ import TabMenu from "@/components/common/base/TabMenu"
 import PageTitle from "@/components/common/base/PageTitle"
 import Badge from "@/components/common/base/Badge"
 import TrainingRegister from "./TrainingRegister"
-import { CirclePlus, Trash2, Printer, Save } from "lucide-react"
+import { CirclePlus, Trash2, Printer, Save, Download } from "lucide-react"
 
 const TAB_LABELS = ["수급업체 관리", "안전보건수준 평가", "도급안전보건 협의체", "안전보건 점검", "안전보건 교육/훈련"]
 const TAB_PATHS = [
@@ -56,6 +56,7 @@ const columns: Column[] = [
 { key: "hazardousMaterial", label: "유해물질 확인", minWidth: 140, renderCell: row => renderStatusBadge("hazardousMaterial", (row as PartnerStatus).hazardousMaterial) },
 { key: "responseManual", label: "대응매뉴얼 확인", minWidth: 140, renderCell: row => renderStatusBadge("responseManual", (row as PartnerStatus).responseManual) },
 { key: "updatedAt", label: "최종 업데이트 일자", minWidth: 140, renderCell: row => (row as PartnerStatus).updatedAt ?? "-" },
+{ key: "fileAttach", label: "첨부파일", minWidth: 90, renderCell: () => (<button type="button" className="text-gray-700 hover:text-gray-900 w-full flex items-center justify-center" aria-label="첨부파일 다운로드"><Download size={19} strokeWidth={2} /></button>) },
 { key: "manage", label: "관리", minWidth: 110, renderCell: row => (<button type="button" className="text-[#999999] cursor-pointer w-[110px] text-center bg-none border-none p-0" onMouseEnter={e => (e.currentTarget.style.textDecoration = "underline")} onMouseLeave={e => (e.currentTarget.style.textDecoration = "none")} onClick={() => alert(`협의체명: ${(row as PartnerStatus).name} 상세/편집 열기`)}>자세히보기/편집</button>) }
 ]
 

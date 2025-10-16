@@ -4,14 +4,15 @@ import Button from "@/components/common/base/Button"
 import PageTitle from "@/components/common/base/PageTitle"
 
 export default function MyPage() {
-const [values, setValues] = useState<Record<string, string>>({ userId: "samho003", name: "박관리", phonePrefix: "010", phoneMiddle: "", phoneLast: "", emailId: "", emailDomain: "", emailDomainSelect: "", currentPassword: "******", newPassword: "", confirmPassword: "", signature: "/images/sample-signature.png" })
+const [values, setValues] = useState<Record<string, string>>({ userId: "samho003", name: "박관리", safetyRole: "경영책임자", phonePrefix: "010", phoneMiddle: "", phoneLast: "", emailId: "", emailDomain: "", emailDomainSelect: "", currentPassword: "******", newPassword: "", confirmPassword: "", signature: "/images/sample-signature.png" })
 const handleChange = (e: React.ChangeEvent<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>) => { const { name, value } = e.target; setValues(prev => ({ ...prev, [name]: value })) }
 const handleDomainSelect = (domain: string) => { setValues(prev => ({ ...prev, emailDomain: domain, emailDomainSelect: domain })) }
 const handleSubmit = () => { console.log("폼 제출", values) }
 
 const fields = [
-{ label: "아이디", name: "userId", type: "readonly" },
-{ label: "이름", name: "name", type: "readonly" },
+{ label: "아이디", name: "userId", type: "readonly", required: false },
+{ label: "이름", name: "name", type: "readonly", required: false },
+{ label: "안전직위", name: "safetyRole", type: "readonly", required: false },
 { label: "현재 비밀번호", name: "currentPassword", type: "password" },
 { label: "새 비밀번호", name: "newPassword", type: "password" },
 { label: "비밀번호 확인", name: "confirmPassword", type: "password", buttonRender: <Button variant="action">비밀번호 확인</Button> },
