@@ -11,9 +11,8 @@ const [formData, setFormData] = useState<FormData>({ content: "", place: "", pho
 const fields: Field[] = [
 { label: "장소", name: "place", type: "text", placeholder: "장소 입력" },
 { label: "내용", name: "content", type: "textarea", placeholder: "내용 입력" },
-{ label: "첨부파일", name: "fileUpload", type: "fileUpload" }
+{ label: "현장사진", name: "photos", type: "multiFileUpload", required: false },
 ]
-
 const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
 }

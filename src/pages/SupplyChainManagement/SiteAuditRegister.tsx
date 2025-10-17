@@ -59,8 +59,8 @@ required: true
 },
 { label: "비고사항", name: "note", type: "textarea", placeholder: "비고 입력" },
 { label: "점검자", name: "inspector", type: "text", placeholder: "점검자 성명 입력", required: true },
-{ label: "점검지", name: "inspectionPlace", type: "fileUpload", placeholder: "파일 업로드" },
-{ label: "첨부자료", name: "fileUpload", type: "fileUpload", placeholder: "파일 업로드" }
+{ label: "현장사진", name: "inspectionPlace", type: "multiFileUpload", required: false },
+{ label: "첨부자료", name: "fileUpload", type: "fileUpload", required: false }
 ]
 
 const handleSubmit = () => {

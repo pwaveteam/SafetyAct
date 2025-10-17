@@ -9,7 +9,7 @@ type Props = { isOpen: boolean; onClose: () => void; onSave: (data: any) => void
 export default function RegularEducationRegister({ isOpen, onClose, onSave }: Props) {
 const [formData, setFormData] = useState({
 category: "", course: "", targetGroup: "", eduName: "", startDate: "", endDate: "", startHour: "", startMinute: "", endHour: "", endMinute: "",
-educationMethod: "", manager: "", trainer: "", eduMaterial: "", fileUpload: "", note: "", notify: true, notifyWhen: "1주일 전"
+educationMethod: "", manager: "", trainer: "", eduMaterial: "", sitePhotos: "", fileUpload: "", note: "", notify: true, notifyWhen: "1주일 전"
 })
 
 const categoryOptions = ["근로자 교육", "관리자 교육", "기타 교육"]
@@ -67,7 +67,6 @@ label: "교육과정", name: "course", type: "custom", customRender: (
 <option key={course} value={course}>{course}</option>
 ))}
 </select>
-
 </div>
 {hourText && <span className="text-sm md:text-[15px] font-medium text-[#6D808E] whitespace-nowrap">교육시간: {hourText}</span>}
 </div>
@@ -109,6 +108,7 @@ className="w-[160px] md:w-[300px] h-[39px] px-2 border border-[#AAAAAA] rounded-
 required: false
 },   
 { label: "교육자료", name: "eduMaterial", type: "fileUpload" },
+{ label: "현장사진", name: "sitePhotos", type: "multiFileUpload", required: false },
 { label: "첨부파일", name: "fileUpload", type: "fileUpload" },
 { label: "비고", name: "note", type: "textarea" },
 { label: "알림 전송여부", name: "notify", type: "custom", customRender: NotifyToggle },

@@ -17,7 +17,7 @@ const AnonymousToggle = (<ToggleSwitch checked={formData.anonymous} onChange={ch
 
 const fields: Field[] = [
 { label: "내용", name: "content", type: "textarea", placeholder: "내용을 입력하세요" },
-{ label: "첨부파일", name: "fileUpload", type: "fileUpload" },
+{ label: "현장사진", name: "photo", type: "multiFileUpload", required: false },
 { label: "익명", name: "anonymous", type: "custom", customRender: AnonymousToggle }
 ]
 

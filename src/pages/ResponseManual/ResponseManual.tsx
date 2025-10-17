@@ -4,8 +4,9 @@ import FilterBar from "@/components/common/base/FilterBar"
 import DataTable, { Column, DataRow } from "@/components/common/tables/DataTable"
 import PageTitle from "@/components/common/base/PageTitle"
 import NoticeRegister from "./ResponseManualRegister"
-import { DownloadIcon, CirclePlus, Printer, Trash2, Save } from "lucide-react"
+import { DownloadIcon, CirclePlus, Printer, Trash2, Save, PhoneCall } from "lucide-react"
 import TabMenu from "@/components/common/base/TabMenu"
+import EmergencyContact from "./EmergencyContact"
 
 const columns: Column[] = [
 { key: "id", label: "번호", minWidth: "50px" },
@@ -23,13 +24,15 @@ const initialData: DataRow[] = [
 { id: 1, title: "(산업안전) 2025년 산업안전보건법령의 요지", author: "김작성", date: "2025-05-30", views: 860, attachment: (<span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="첨부파일 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>) }
 ]
 
+type ModalKind = "none" | "register" | "emergency"
+
 export default function ResponseManual() {
 const [data, setData] = useState<DataRow[]>(initialData)
 const [searchText, setSearchText] = useState("")
 const [startDate, setStartDate] = useState("")
 const [endDate, setEndDate] = useState("")
 const [checkedIds, setCheckedIds] = useState<(number | string)[]>([])
-const [modalOpen, setModalOpen] = useState(false)
+const [modalType, setModalType] = useState<ModalKind>("none")
 const userName = "김작성"
 
 const handleSearch = () => {}
@@ -53,7 +56,7 @@ views: 0,
 attachment: newItem.attachment ? (<span className="flex justify-center items-center"><DownloadIcon size={19} aria-label="첨부파일 다운로드" role="button" tabIndex={0} className="cursor-pointer" /></span>) : ""
 }
 setData(prev => [newData, ...prev])
-setModalOpen(false)
+setModalType("none")
 }
 
 return (
@@ -64,7 +67,10 @@ return (
 <div className="flex flex-col-reverse sm:flex-row justify-between items-start sm:items-center mb-3 gap-1">
 <span className="text-gray-600 text-sm leading-none pt-[3px] mt-2 sm:mt-0">총 {data.length}건</span>
 <div className="flex flex-nowrap gap-1 w-full justify-end self-end sm:w-auto sm:self-auto">
-<Button variant="action" onClick={() => setModalOpen(true)} className="flex items-center gap-1">
+<Button variant="action" onClick={() => setModalType("emergency")} className="flex items-center gap-1">
+<PhoneCall size={16} />비상연락망
+</Button>
+<Button variant="action" onClick={() => setModalType("register")} className="flex items-center gap-1">
 <CirclePlus size={16} />신규등록
 </Button>
 <Button variant="action" onClick={handlePrint} className="flex items-center gap-1">
@@ -81,7 +87,8 @@ return (
 <div className="overflow-x-auto bg-white">
 <DataTable columns={columns} data={data} onCheckedChange={setCheckedIds} />
 </div>
-{modalOpen && (<NoticeRegister isOpen={modalOpen} onClose={() => setModalOpen(false)} onSave={handleSave} userName={userName} />)}
+{modalType === "register" && (<NoticeRegister isOpen onClose={() => setModalType("none")} onSave={handleSave} userName={userName} />)}
+{modalType === "emergency" && (<EmergencyContact isOpen onClose={() => setModalType("none")} />)}
 </section>
 )
 }
