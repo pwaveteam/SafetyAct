@@ -123,7 +123,7 @@ onClose={() => setProcessListOpen(false)}
 },
 { label: "작업내용", name: "content", type: "textarea", className: "text-xs md:text-sm", required: false },
 { label: "비고", name: "remark", type: "textarea", className: "text-xs md:text-sm", required: false },
-{ label: "현장사진", name: "sitePhotos", type: "multiFileUpload", required: false },
+{ label: "현장사진", name: "sitePhotos", type: "photoUpload", required: false },
 { label: "첨부파일", name: "fileUpload", type: "fileUpload", required: false },
 ]
 

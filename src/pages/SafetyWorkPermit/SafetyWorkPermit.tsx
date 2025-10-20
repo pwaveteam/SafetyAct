@@ -12,7 +12,7 @@ const columns: Column[] = [
 { key: "id", label: "번호", minWidth: 48 },
 { key: "workType", label: "작업유형", minWidth: 130 },
 { key: "workerCount", label: "작업인원", minWidth: 90 },
-{ key: "hazardLevel", label: "위험 수준", minWidth: 90 },
+{ key: "hazardLevel", label: "위험수준", minWidth: 90 },
 { key: "workPeriod", label: "작업기간", minWidth: 200 },
 { key: "registrationDate", label: "등록일", minWidth: 110 },
 { key: "approvalStatus", label: "승인상태", minWidth: 100 },

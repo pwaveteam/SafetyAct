@@ -12,9 +12,9 @@ import { CirclePlus, QrCode, Printer, Trash2, Download, Save, Image } from "luci
 import jsPDF from "jspdf"
 
 const initialData: DataRow[] = [
-{ id: 1, course: "정기교육", targetGroup: "사무직 종사 근로자", eduName: "정기 안전보건교육", date: "2025-06-03", place: "본사 강의실", trainer: "홍길동", sitePhotos: ["/images/photo1.jpg", "/images/photo2.jpg"] },
-{ id: 2, course: "채용 시 교육", targetGroup: "일용근로자·계약 1주 이하 기간제근로자", eduName: "신규 채용 안전교육", date: "2025-06-14", place: "현장 안전교육장", trainer: "이은영", sitePhotos: ["/images/photo3.jpg"] },
-{ id: 3, course: "작업내용 변경 시 교육", targetGroup: "일용근로자·계약 1주 이하 기간제근로자", eduName: "작업 전 변경교육", date: "2025-07-01", place: "제1작업장", trainer: "김도윤", sitePhotos: [] }
+{ id: 1, course: "정기교육", targetGroup: "사무직 종사 근로자", eduName: "정기 안전보건교육", date: "2025-06-03", trainer: "홍길동", sitePhotos: ["/images/photo1.jpg", "/images/photo2.jpg"] },
+{ id: 2, course: "채용 시 교육", targetGroup: "일용근로자·계약 1주 이하 기간제근로자", eduName: "신규 채용 안전교육", date: "2025-06-14", trainer: "이은영", sitePhotos: ["/images/photo3.jpg"] },
+{ id: 3, course: "작업내용 변경 시 교육", targetGroup: "일용근로자·계약 1주 이하 기간제근로자", eduName: "작업 전 변경교육", date: "2025-07-01", trainer: "김도윤", sitePhotos: [] }
 ]
 
 const TAB_LABELS = ["안전보건교육"]
@@ -50,7 +50,7 @@ if (checked.length === 0) return alert("QR 생성할 항목을 선택하세요")
 for (const id of checked) {
 const row = data.find(d => d.id === id)
 if (!row) continue
-const qrText = `교육명: ${row.eduName}\n교육일자: ${row.date}\n교육대상 구분: ${row.course}\n대상: ${row.targetGroup}\n장소: ${row.place}\n강사: ${row.trainer}`
+const qrText = `교육명: ${row.eduName}\n교육일자: ${row.date}\n교육대상 구분: ${row.course}\n대상: ${row.targetGroup}\n강사: ${row.trainer}`
 try {
 const dataUrl = await QRCode.toDataURL(qrText, { width: 300 })
 const link = document.createElement("a")
@@ -88,7 +88,6 @@ const columns: Column[] = React.useMemo(() => [
 { key: "targetGroup", label: "교육대상", minWidth: 120 },
 { key: "eduName", label: "교육명", minWidth: 160 },
 { key: "date", label: "교육일자", minWidth: 120 },
-{ key: "place", label: "교육장소", minWidth: 120 },
 { key: "trainer", label: "강사", minWidth: 96 },
 {
 key: "sitePhotos",

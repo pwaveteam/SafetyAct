@@ -6,7 +6,7 @@ import DataTable, { Column, DataRow } from "@/components/common/tables/DataTable
 import TabMenu from "@/components/common/base/TabMenu"
 import PageTitle from "@/components/common/base/PageTitle"
 import CommitteeRegister from "./CommitteeRegister"
-import { DownloadIcon, Download, CirclePlus, Printer, Trash2, ShieldAlert, Save, Image } from "lucide-react"
+import { DownloadIcon, Download, CirclePlus, Printer, Trash2, ShieldAlert, Save, Image, Upload } from "lucide-react"
 import SitePhotoViewer from "@/components/modules/SitePhotoViewer"
 
 const TAB_LABELS = ["수급업체 관리", "안전보건수준 평가", "도급안전보건 협의체", "안전보건 점검", "안전보건 교육/훈련"]
@@ -112,7 +112,10 @@ className="flex items-center gap-1"
 </div>
 <h2 className="text-sm sm:text-lg font-semibold mb-1">도급협의체 조직도가 없습니다.</h2>
 <p className="text-xs sm:text-base text-gray-300 mb-6">조직도 파일을 업로드한 후 조직관리를 시작해보세요.</p>
-<Button variant="circle" style={{ minWidth: 140 }}>조직 등록하기</Button>
+<Button variant="circle" className="flex items-center justify-center gap-1 px-6">
+<Upload size={16} className="text-gray-500" />
+조직도 이미지 업로드
+</Button>
 </div>
 ) : (
 <div className="flex justify-center mb-6">{/* 조직도 이미지 자리 */}</div>

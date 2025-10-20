@@ -23,7 +23,7 @@ type?:
 | "timeRange"
 | "textarea"
 | "fileUpload"
-| "multiFileUpload"
+| "photoUpload"
 | "tags"
 | "quantityUnit"
 | "quantity"
@@ -179,7 +179,6 @@ className={`${baseInput} ${BG_EDITABLE} pr-8`}
 <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5 pointer-events-none" />
 </div>
 )
-
 
 if (field.type === "date")
 return (
@@ -667,42 +666,54 @@ className={`${TEXTAREA_STYLE} text-sm md:text-base placeholder:text-sm md:placeh
 />
 )
 
-if (field.type === "fileUpload")
+if (field.type === "fileUpload") {
 return (
+<div className="flex flex-col gap-2 w-full">
 <label className={`${FILE_WRAPPER} relative p-[3px] space-x-[6px]`}>
-<span className="h-[30px] flex items-center px-3 bg-[#EFEFEF] border border-[#999999] rounded-[3px] text-sm md:text-base text-[#333639] cursor-pointer">
-파일 선택
-</span>
+<span className="h-[30px] flex items-center px-3 bg-[#EFEFEF] border border-[#999999] rounded-[3px] text-sm md:text-base text-[#333639] cursor-pointer">파일 선택</span>
 <span className="text-sm md:text-base text-[#999999] flex-1 truncate">
-{values[field.name] || "선택된 파일 없음"}
+{values[field.name]
+? `${values[field.name].split(",").length}개 파일 선택됨`
+: "선택된 파일 없음"}
 </span>
 <input
 type="file"
 name={field.name}
+multiple
+accept=".jpg,.jpeg,.png,.gif,.bmp,.svg,.webp,.pdf,.doc,.docx,.hwp,.xls,.xlsx,.ppt,.pptx,.txt"
 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-onChange={e =>
-onChange({
-target: {
-name: field.name,
-value: (e.target as HTMLInputElement).files?.[0]?.name || "",
-},
-} as any)
+onChange={e => {
+const files = Array.from((e.target as HTMLInputElement).files || [])
+const allowed = /\.(jpg|jpeg|png|gif|bmp|svg|webp|pdf|doc|docx|hwp|xls|xlsx|ppt|pptx|txt)$/i
+const validFiles = files.filter(f => allowed.test(f.name))
+if (validFiles.length > 10) {
+alert("최대 10개 파일까지만 업로드할 수 있습니다.")
+return
 }
+if (validFiles.length !== files.length) alert("이미지 및 문서 파일만 업로드할 수 있습니다.")
+const names = validFiles.map(f => f.name).join(", ")
+onChange({ target: { name: field.name, value: names } } as any)
+}}
 />
 </label>
+{values[field.name] && (
+<ul className="border border-[#DDD] rounded-md p-2 max-h-[120px] overflow-auto text-sm text-[#333639]">
+{values[field.name].split(",").map((fname: string, idx: number) => (
+<li key={idx} className="truncate">• {fname.trim()}</li>
+))}
+</ul>
+)}
+</div>
 )
+}
 
-if (field.type === "multiFileUpload") {
+if (field.type === "photoUpload") {
 return (
 <div className="flex flex-col gap-2 w-full">
 <label className={`${FILE_WRAPPER} relative p-[3px] space-x-[6px]`}>
-<span className="h-[30px] flex items-center px-3 bg-[#EFEFEF] border border-[#999999] rounded-[3px] text-sm md:text-base text-[#333639] cursor-pointer">
-파일 선택
-</span>
+<span className="h-[30px] flex items-center px-3 bg-[#EFEFEF] border border-[#999999] rounded-[3px] text-sm md:text-base text-[#333639] cursor-pointer">파일 선택</span>
 <span className="text-sm md:text-base text-[#999999] flex-1 truncate">
-{(values[field.name] && values[field.name].split(",").length > 0)
-? `${values[field.name].split(",").length}개 파일 선택됨`
-: "선택된 파일 없음"}
+{values[field.name] && values[field.name].split(",").length > 0 ? `${values[field.name].split(",").length}개 파일 선택됨` : "선택된 파일 없음"}
 </span>
 <input
 type="file"
@@ -712,27 +723,25 @@ accept="image/*"
 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
 onChange={e => {
 const files = Array.from((e.target as HTMLInputElement).files || [])
+if (files.length > 10) {
+alert("최대 10개 파일까지만 업로드할 수 있습니다.")
+return
+}
 const names = files.map(f => f.name).join(", ")
-onChange({
-target: { name: field.name, value: names },
-} as any)
+onChange({ target: { name: field.name, value: names } } as any)
 }}
 />
 </label>
 {values[field.name] && values[field.name].split(",").length > 0 && (
 <ul className="border border-[#DDD] rounded-md p-2 max-h-[120px] overflow-auto text-sm text-[#333639]">
-{values[field.name]
-.split(",")
-.map((fname: string, idx: number) => (
-<li key={idx} className="truncate">
-• {fname.trim()}
-</li>
+{values[field.name].split(",").map((fname: string, idx: number) => (
+<li key={idx} className="truncate">• {fname.trim()}</li>
 ))}
 </ul>
 )}
 </div>
 )
-}
+}  
 
 if (field.type === "quantity") {
 return (
@@ -793,7 +802,6 @@ className={`w-full max-w-full bg-white px-1 py-0.5 ${COMMON_BORDER} h-[39px] fle
 <span className="text-sm md:text-[15px] font-normal text-[#86939A] select-none ml-2">
 선택된 태그가 없습니다
 </span>
-
 
 ) : (
 tags.map(t => (

@@ -108,7 +108,7 @@ className="w-[160px] md:w-[300px] h-[39px] px-2 border border-[#AAAAAA] rounded-
 required: false
 },   
 { label: "교육자료", name: "eduMaterial", type: "fileUpload" },
-{ label: "현장사진", name: "sitePhotos", type: "multiFileUpload", required: false },
+{ label: "현장사진", name: "sitePhotos", type: "photoUpload", required: false },
 { label: "첨부파일", name: "fileUpload", type: "fileUpload" },
 { label: "비고", name: "note", type: "textarea" },
 { label: "알림 전송여부", name: "notify", type: "custom", customRender: NotifyToggle },
