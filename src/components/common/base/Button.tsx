@@ -5,6 +5,7 @@ type ButtonVariant =
 | "secondary"
 | "clear"
 | "action"
+| "urgent"
 | "rowAdd"
 | "step"
 | "docs"
@@ -26,6 +27,7 @@ primary: null,
 secondary: null,
 clear: null,
 action: null,
+urgent: null,
 rowAdd: "+ 새항목 추가",
 step: null,
 docs: null,
@@ -52,12 +54,15 @@ styleClass = "bg-[#031E36] text-white border-none px-[30px] h-[33px] md:h-[39px]
 break
 case "clear":
 styleClass = "bg-white text-[#031E36] border border-[#031E36] px-[30px] h-[33px] md:h-[39px] text-xs sm:text-sm md:text-md"
-break      
+break
 case "secondary":
 styleClass = "bg-[#1F5B9E] text-white px-[9px] md:px-[15px] h-[33px] md:h-[39px] text-xs sm:text-sm md:text-md"
 break
 case "action":
 styleClass = "bg-[#EEF5FF] text-[#1E3C6B] border border-[#ADC0D6] px-[9px] md:px-[10px] h-[33px] md:h-[39px] text-xs sm:text-sm md:text-md"
+break
+case "urgent":
+styleClass = "bg-[#FDEDED] text-[#901C1C] border border-[#D19EA3] px-[9px] md:px-[10px] h-[33px] md:h-[39px] text-xs sm:text-sm md:text-md"
 break
 case "rowAdd":
 styleClass = "bg-white text-[#161616] border border-[#161616] px-[9px] md:px-[15px] h-[33px] md:h-[39px] text-xs sm:text-sm md:text-md"
